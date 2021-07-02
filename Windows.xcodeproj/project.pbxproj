@@ -1,0 +1,594 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1AF994D7268EB8D0002C3E4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF994D6268EB8D0002C3E4D /* AppDelegate.swift */; };
+		1AF994D9268EB8D0002C3E4D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF994D8268EB8D0002C3E4D /* ContentView.swift */; };
+		1AF994DB268EB8D1002C3E4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF994DA268EB8D1002C3E4D /* Assets.xcassets */; };
+		1AF994DE268EB8D1002C3E4D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF994DD268EB8D1002C3E4D /* Preview Assets.xcassets */; };
+		1AF994E1268EB8D1002C3E4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF994DF268EB8D1002C3E4D /* Main.storyboard */; };
+		1AF994ED268EB8D1002C3E4D /* WindowsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF994EC268EB8D1002C3E4D /* WindowsTests.swift */; };
+		1AF994F8268EB8D1002C3E4D /* WindowsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF994F7268EB8D1002C3E4D /* WindowsUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1AF994E9268EB8D1002C3E4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AF994CB268EB8D0002C3E4D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AF994D2268EB8D0002C3E4D;
+			remoteInfo = Windows;
+		};
+		1AF994F4268EB8D1002C3E4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AF994CB268EB8D0002C3E4D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AF994D2268EB8D0002C3E4D;
+			remoteInfo = Windows;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1AF994D3268EB8D0002C3E4D /* Windows.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Windows.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AF994D6268EB8D0002C3E4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1AF994D8268EB8D0002C3E4D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1AF994DA268EB8D1002C3E4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1AF994DD268EB8D1002C3E4D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1AF994E0268EB8D1002C3E4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1AF994E2268EB8D1002C3E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AF994E3268EB8D1002C3E4D /* Windows.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Windows.entitlements; sourceTree = "<group>"; };
+		1AF994E8268EB8D1002C3E4D /* WindowsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WindowsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AF994EC268EB8D1002C3E4D /* WindowsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowsTests.swift; sourceTree = "<group>"; };
+		1AF994EE268EB8D1002C3E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AF994F3268EB8D1002C3E4D /* WindowsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WindowsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AF994F7268EB8D1002C3E4D /* WindowsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowsUITests.swift; sourceTree = "<group>"; };
+		1AF994F9268EB8D1002C3E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1AF994D0268EB8D0002C3E4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AF994E5268EB8D1002C3E4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AF994F0268EB8D1002C3E4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1AF994CA268EB8D0002C3E4D = {
+			isa = PBXGroup;
+			children = (
+				1AF994D5268EB8D0002C3E4D /* Windows */,
+				1AF994EB268EB8D1002C3E4D /* WindowsTests */,
+				1AF994F6268EB8D1002C3E4D /* WindowsUITests */,
+				1AF994D4268EB8D0002C3E4D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1AF994D4268EB8D0002C3E4D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1AF994D3268EB8D0002C3E4D /* Windows.app */,
+				1AF994E8268EB8D1002C3E4D /* WindowsTests.xctest */,
+				1AF994F3268EB8D1002C3E4D /* WindowsUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1AF994D5268EB8D0002C3E4D /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				1AF994D6268EB8D0002C3E4D /* AppDelegate.swift */,
+				1AF994D8268EB8D0002C3E4D /* ContentView.swift */,
+				1AF994DA268EB8D1002C3E4D /* Assets.xcassets */,
+				1AF994DF268EB8D1002C3E4D /* Main.storyboard */,
+				1AF994E2268EB8D1002C3E4D /* Info.plist */,
+				1AF994E3268EB8D1002C3E4D /* Windows.entitlements */,
+				1AF994DC268EB8D1002C3E4D /* Preview Content */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
+		1AF994DC268EB8D1002C3E4D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1AF994DD268EB8D1002C3E4D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1AF994EB268EB8D1002C3E4D /* WindowsTests */ = {
+			isa = PBXGroup;
+			children = (
+				1AF994EC268EB8D1002C3E4D /* WindowsTests.swift */,
+				1AF994EE268EB8D1002C3E4D /* Info.plist */,
+			);
+			path = WindowsTests;
+			sourceTree = "<group>";
+		};
+		1AF994F6268EB8D1002C3E4D /* WindowsUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1AF994F7268EB8D1002C3E4D /* WindowsUITests.swift */,
+				1AF994F9268EB8D1002C3E4D /* Info.plist */,
+			);
+			path = WindowsUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1AF994D2268EB8D0002C3E4D /* Windows */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AF994FC268EB8D1002C3E4D /* Build configuration list for PBXNativeTarget "Windows" */;
+			buildPhases = (
+				1AF994CF268EB8D0002C3E4D /* Sources */,
+				1AF994D0268EB8D0002C3E4D /* Frameworks */,
+				1AF994D1268EB8D0002C3E4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Windows;
+			productName = Windows;
+			productReference = 1AF994D3268EB8D0002C3E4D /* Windows.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1AF994E7268EB8D1002C3E4D /* WindowsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AF994FF268EB8D1002C3E4D /* Build configuration list for PBXNativeTarget "WindowsTests" */;
+			buildPhases = (
+				1AF994E4268EB8D1002C3E4D /* Sources */,
+				1AF994E5268EB8D1002C3E4D /* Frameworks */,
+				1AF994E6268EB8D1002C3E4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1AF994EA268EB8D1002C3E4D /* PBXTargetDependency */,
+			);
+			name = WindowsTests;
+			productName = WindowsTests;
+			productReference = 1AF994E8268EB8D1002C3E4D /* WindowsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1AF994F2268EB8D1002C3E4D /* WindowsUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AF99502268EB8D1002C3E4D /* Build configuration list for PBXNativeTarget "WindowsUITests" */;
+			buildPhases = (
+				1AF994EF268EB8D1002C3E4D /* Sources */,
+				1AF994F0268EB8D1002C3E4D /* Frameworks */,
+				1AF994F1268EB8D1002C3E4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1AF994F5268EB8D1002C3E4D /* PBXTargetDependency */,
+			);
+			name = WindowsUITests;
+			productName = WindowsUITests;
+			productReference = 1AF994F3268EB8D1002C3E4D /* WindowsUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1AF994CB268EB8D0002C3E4D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = James;
+				TargetAttributes = {
+					1AF994D2268EB8D0002C3E4D = {
+						CreatedOnToolsVersion = 11.3;
+					};
+					1AF994E7268EB8D1002C3E4D = {
+						CreatedOnToolsVersion = 11.3;
+						TestTargetID = 1AF994D2268EB8D0002C3E4D;
+					};
+					1AF994F2268EB8D1002C3E4D = {
+						CreatedOnToolsVersion = 11.3;
+						TestTargetID = 1AF994D2268EB8D0002C3E4D;
+					};
+				};
+			};
+			buildConfigurationList = 1AF994CE268EB8D0002C3E4D /* Build configuration list for PBXProject "Windows" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1AF994CA268EB8D0002C3E4D;
+			productRefGroup = 1AF994D4268EB8D0002C3E4D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1AF994D2268EB8D0002C3E4D /* Windows */,
+				1AF994E7268EB8D1002C3E4D /* WindowsTests */,
+				1AF994F2268EB8D1002C3E4D /* WindowsUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1AF994D1268EB8D0002C3E4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AF994E1268EB8D1002C3E4D /* Main.storyboard in Resources */,
+				1AF994DE268EB8D1002C3E4D /* Preview Assets.xcassets in Resources */,
+				1AF994DB268EB8D1002C3E4D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AF994E6268EB8D1002C3E4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AF994F1268EB8D1002C3E4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1AF994CF268EB8D0002C3E4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AF994D9268EB8D0002C3E4D /* ContentView.swift in Sources */,
+				1AF994D7268EB8D0002C3E4D /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AF994E4268EB8D1002C3E4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AF994ED268EB8D1002C3E4D /* WindowsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AF994EF268EB8D1002C3E4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AF994F8268EB8D1002C3E4D /* WindowsUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1AF994EA268EB8D1002C3E4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1AF994D2268EB8D0002C3E4D /* Windows */;
+			targetProxy = 1AF994E9268EB8D1002C3E4D /* PBXContainerItemProxy */;
+		};
+		1AF994F5268EB8D1002C3E4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1AF994D2268EB8D0002C3E4D /* Windows */;
+			targetProxy = 1AF994F4268EB8D1002C3E4D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1AF994DF268EB8D1002C3E4D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1AF994E0268EB8D1002C3E4D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1AF994FA268EB8D1002C3E4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1AF994FB268EB8D1002C3E4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		1AF994FD268EB8D1002C3E4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Windows/Windows.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Windows/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Windows/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.james10424.Windows;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1AF994FE268EB8D1002C3E4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Windows/Windows.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"Windows/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Windows/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.james10424.Windows;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		1AF99500268EB8D1002C3E4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = WindowsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.james10424.WindowsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Windows.app/Contents/MacOS/Windows";
+			};
+			name = Debug;
+		};
+		1AF99501268EB8D1002C3E4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = WindowsTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.james10424.WindowsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Windows.app/Contents/MacOS/Windows";
+			};
+			name = Release;
+		};
+		1AF99503268EB8D1002C3E4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = WindowsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.james10424.WindowsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Windows;
+			};
+			name = Debug;
+		};
+		1AF99504268EB8D1002C3E4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = WindowsUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.james10424.WindowsUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = Windows;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1AF994CE268EB8D0002C3E4D /* Build configuration list for PBXProject "Windows" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AF994FA268EB8D1002C3E4D /* Debug */,
+				1AF994FB268EB8D1002C3E4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1AF994FC268EB8D1002C3E4D /* Build configuration list for PBXNativeTarget "Windows" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AF994FD268EB8D1002C3E4D /* Debug */,
+				1AF994FE268EB8D1002C3E4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1AF994FF268EB8D1002C3E4D /* Build configuration list for PBXNativeTarget "WindowsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AF99500268EB8D1002C3E4D /* Debug */,
+				1AF99501268EB8D1002C3E4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1AF99502268EB8D1002C3E4D /* Build configuration list for PBXNativeTarget "WindowsUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AF99503268EB8D1002C3E4D /* Debug */,
+				1AF99504268EB8D1002C3E4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1AF994CB268EB8D0002C3E4D /* Project object */;
+}
