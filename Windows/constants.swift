@@ -53,11 +53,11 @@ func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
     return windows
 }
 
-func readConfig() -> [[String: AnyObject]]? {
+func readConfig(selectFile: Bool) -> [[String: AnyObject]]? {
     let defaults = UserDefaults.standard
     var fname: String?
     let defaultFile = defaults.string(forKey: "windowConfig")
-    if defaultFile == nil {
+    if selectFile || defaultFile == nil {
         fname = askForFile(defaultFile: nil)
     }
     else {

@@ -22,16 +22,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.title = title
             button.action = #selector(self.click(sender:))
             button.target = self
-            button.sendAction(on: [.leftMouseUp])
+            button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
-        guard let ws = readConfig() else {
+        initWindow(selectFile: false)
+    }
+    
+    func initWindow(selectFile: Bool) {
+        guard let ws = readConfig(selectFile: selectFile) else {
             return
         }
         windows = fileToWindows(content: ws)
     }
     
     @objc func click(sender: NSStatusItem) {
-        setWindows(windows: &windows!)
+        guard let e = NSApp.currentEvent else {return}
+        if e.type == .leftMouseUp {
+            guard windows != nil else {return}
+            setWindows(windows: &windows!)
+        }
+        else {
+            initWindow(selectFile: true) // re select a file
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
