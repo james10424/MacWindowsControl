@@ -21,21 +21,19 @@ struct Window {
     mutating func setPID(pid: Int32?) {
         self.pid = pid
     }
+
+    var description: String {
+        return "\(name) (\(x), \(y)) (\(width), \(height)) \(windowIdx ?? 0)"
+    }
 }
 
-func notification(text: String) {
+func notification(title: String, text: String) {
     let alert = NSAlert()
-    alert.messageText = "Some operations weren't successful"
+    alert.messageText = title
     alert.informativeText = text
     alert.alertStyle = .warning
     alert.addButton(withTitle: "OK")
     alert.runModal()
-//    let notification = NSUserNotification()
-//    notification.title = "Window"
-//    notification.subtitle = text
-//    notification.soundName = NSUserNotificationDefaultSoundName
-//    notification.deliveryDate = Date(timeIntervalSinceNow: 1)
-//    NSUserNotificationCenter.default.scheduleNotification(notification)
 }
 
 func containsName(_ names: [String], windowName: String) -> Int? {
@@ -148,6 +146,6 @@ func setWindows(windows: inout [Window]) {
         }
     }
     if !errors.isEmpty {
-        notification(text: errors.joined(separator: "\n"))
+        notification(title: "Some operations weren't successful", text: errors.joined(separator: "\n"))
     }
 }
