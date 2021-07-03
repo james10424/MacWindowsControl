@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AppKit
 
 let title = "❖"
 
@@ -48,7 +49,7 @@ func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
         notification(title: "Some operations weren't successful", text: invalids.map{"\($0)"}.joined(separator: "\n"))
     }
     else {
-        notification(title: "Read these windows", text: windows.map{"\($0.description)"}.joined(separator: "\n"))
+        notification(title: "Parsed these windows", text: windows.map{"\($0.description)"}.joined(separator: "\n"))
     }
     return windows
 }
@@ -73,4 +74,30 @@ func readConfig(selectFile: Bool) -> [[String: AnyObject]]? {
     }
     defaults.set(fname, forKey: "windowConfig")
     return ws
+}
+
+func notification(title: String, text: String) {
+    let alert = NSAlert()
+    alert.messageText = title
+    alert.informativeText = text
+    alert.alertStyle = .warning
+    alert.addButton(withTitle: "OK")
+    alert.runModal()
+}
+
+func askForFile(defaultFile: String?) -> String? {
+    let dialog = NSOpenPanel()
+    dialog.title = "Choose a window config file (json)"
+    dialog.showsResizeIndicator = true
+    dialog.showsHiddenFiles = false
+    dialog.allowsMultipleSelection = false
+    dialog.canChooseDirectories = false
+    dialog.allowedFileTypes = ["json"]
+    if defaultFile != nil {
+        dialog.directoryURL = NSURL.fileURL(withPath: defaultFile!)
+    }
+    if dialog.runModal() == .OK {
+        return dialog.url?.path
+    }
+    return nil
 }

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AppKit
 
 struct Window {
     let name: String
@@ -15,7 +14,7 @@ struct Window {
     let y: Int
     let width: Int
     let height: Int
-    var windowIdx: Int? // the window number, nil = the first
+    var windowIdx: Int? // the window number, nil = the first, -1 = last
     var pid: Int32?
     
     mutating func setPID(pid: Int32?) {
@@ -25,32 +24,6 @@ struct Window {
     var description: String {
         return "\(name) (\(x), \(y)) (\(width), \(height)) \(windowIdx ?? 0)"
     }
-}
-
-func notification(title: String, text: String) {
-    let alert = NSAlert()
-    alert.messageText = title
-    alert.informativeText = text
-    alert.alertStyle = .warning
-    alert.addButton(withTitle: "OK")
-    alert.runModal()
-}
-
-func askForFile(defaultFile: String?) -> String? {
-    let dialog = NSOpenPanel()
-    dialog.title = "Choose a window config file (json)"
-    dialog.showsResizeIndicator = true
-    dialog.showsHiddenFiles = false
-    dialog.allowsMultipleSelection = false
-    dialog.canChooseDirectories = false
-    dialog.allowedFileTypes = ["json"]
-    if defaultFile != nil {
-        dialog.directoryURL = NSURL.fileURL(withPath: defaultFile!)
-    }
-    if dialog.runModal() == .OK {
-        return dialog.url?.path
-    }
-    return nil
 }
 
 /**
@@ -89,17 +62,16 @@ func setByPID(pid: Int32, windowIdx: Int?, x: Int, y: Int, width: Int, height: I
     }
     
     // get window by window index
-    let wid = windowIdx ?? 0
     guard
         let windows = value as? [AXUIElement],
         windows.count > 0,
-        wid >= 0,
-        wid < windows.count
+        let wid = windowIdx == nil ? 0 : (windowIdx == -1 ? windows.count - 1 : windowIdx),
+        wid < windows.count,
+        wid >= 0
     else {
-        print("Failed to get window for \(pid)")
+        print("Failed to get window \(windowIdx ?? 0) for \(pid)")
         return false
     }
-
     let window = windows[wid]
     // got window, set attr
     var point = CGPoint(x: x, y: y)
