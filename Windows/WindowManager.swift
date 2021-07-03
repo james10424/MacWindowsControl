@@ -36,9 +36,19 @@ func notification(title: String, text: String) {
     alert.runModal()
 }
 
-func containsName(_ names: [String], windowName: String) -> Int? {
-    for (i, name) in names.enumerated() {
-        guard windowName.contains(name) else { return i }
+func askForFile(defaultFile: String?) -> String? {
+    let dialog = NSOpenPanel()
+    dialog.title = "Choose a window config file (json)"
+    dialog.showsResizeIndicator = true
+    dialog.showsHiddenFiles = false
+    dialog.allowsMultipleSelection = false
+    dialog.canChooseDirectories = false
+    dialog.allowedFileTypes = ["json"]
+    if defaultFile != nil {
+        dialog.directoryURL = NSURL.fileURL(withPath: defaultFile!)
+    }
+    if dialog.runModal() == .OK {
+        return dialog.url?.path
     }
     return nil
 }

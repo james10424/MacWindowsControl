@@ -12,12 +12,6 @@ import SwiftUI
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem!
-//    var windows = [
-//        Window(name: "Discord", x: 2561, y: -478, width: 1078, height: 659, windowIdx: nil),
-//        Window(name: "Mail", x: 2560, y: 182, width: 1079, height: 692, windowIdx: nil),
-//        Window(name: "iTunes", x: 3159, y: 1057, width: 448, height: 448, windowIdx: 0),
-//        Window(name: "iTunes", x: 2560, y: 875, width: 1080, height: 566, windowIdx: 1),
-//    ]
     var windows: [Window]?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -30,9 +24,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.target = self
             button.sendAction(on: [.leftMouseUp])
         }
-        let ws = readWindows(fname: fname)
-        windows = fileToWindows(content: ws!)
-        
+        guard let ws = readConfig() else {
+            return
+        }
+        windows = fileToWindows(content: ws)
     }
     
     @objc func click(sender: NSStatusItem) {

@@ -10,8 +10,6 @@ import Foundation
 
 let title = "❖"
 
-let fname = "/Users/james/applescripts/windows.json"
-
 func readWindows(fname: String) -> [[String: AnyObject]]? {
     guard
         let content = try? String(contentsOfFile: fname),
@@ -53,4 +51,26 @@ func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
         notification(title: "Read these windows", text: windows.map{"\($0.description)"}.joined(separator: "\n"))
     }
     return windows
+}
+
+func readConfig() -> [[String: AnyObject]]? {
+    let defaults = UserDefaults.standard
+    var fname: String?
+    let defaultFile = defaults.string(forKey: "windowConfig")
+    if defaultFile == nil {
+        fname = askForFile(defaultFile: nil)
+    }
+    else {
+        fname = defaultFile
+    }
+    guard fname != nil else {
+        notification(title: "This doesn't work", text: "You haven't selected a file")
+        return nil
+    }
+    guard let ws = readWindows(fname: fname!) else {
+        notification(title: "Invalid config", text: "The config file you supplied is invalid")
+        return nil
+    }
+    defaults.set(fname, forKey: "windowConfig")
+    return ws
 }
