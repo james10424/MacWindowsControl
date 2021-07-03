@@ -14,6 +14,8 @@
 		1AF994E1268EB8D1002C3E4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AF994DF268EB8D1002C3E4D /* Main.storyboard */; };
 		1AF994ED268EB8D1002C3E4D /* WindowsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF994EC268EB8D1002C3E4D /* WindowsTests.swift */; };
 		1AF994F8268EB8D1002C3E4D /* WindowsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF994F7268EB8D1002C3E4D /* WindowsUITests.swift */; };
+		1AF99506268F4413002C3E4D /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF99505268F4413002C3E4D /* constants.swift */; };
+		1AF9950C268FD2C9002C3E4D /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF9950B268FD2C9002C3E4D /* WindowManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		1AF994F3268EB8D1002C3E4D /* WindowsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WindowsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF994F7268EB8D1002C3E4D /* WindowsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowsUITests.swift; sourceTree = "<group>"; };
 		1AF994F9268EB8D1002C3E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AF99505268F4413002C3E4D /* constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
+		1AF9950B268FD2C9002C3E4D /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +102,9 @@
 		1AF994D5268EB8D0002C3E4D /* Windows */ = {
 			isa = PBXGroup;
 			children = (
+				1AF9950B268FD2C9002C3E4D /* WindowManager.swift */,
 				1AF994D6268EB8D0002C3E4D /* AppDelegate.swift */,
+				1AF99505268F4413002C3E4D /* constants.swift */,
 				1AF994D8268EB8D0002C3E4D /* ContentView.swift */,
 				1AF994DA268EB8D1002C3E4D /* Assets.xcassets */,
 				1AF994DF268EB8D1002C3E4D /* Main.storyboard */,
@@ -268,6 +274,8 @@
 			files = (
 				1AF994D9268EB8D0002C3E4D /* ContentView.swift in Sources */,
 				1AF994D7268EB8D0002C3E4D /* AppDelegate.swift in Sources */,
+				1AF99506268F4413002C3E4D /* constants.swift in Sources */,
+				1AF9950C268FD2C9002C3E4D /* WindowManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,7 +449,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.james10424.Windows;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -462,7 +470,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.james10424.Windows;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
