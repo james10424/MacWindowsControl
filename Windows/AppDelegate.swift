@@ -36,12 +36,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func click(sender: NSStatusItem) {
         guard let e = NSApp.currentEvent else {return}
-        if e.type == .leftMouseUp {
+        switch e.type {
+        case .leftMouseUp:
             guard windows != nil else {return}
             setWindows(windows: &windows!)
-        }
-        else {
-            initWindow(selectFile: true) // re select a file
+            break
+        case .rightMouseUp:
+            if e.modifierFlags.contains(.shift) {
+                saveWindows(windows: &windows!)
+            }
+            else {
+                initWindow(selectFile: true) // re select a file
+            }
+            break
+        case .otherMouseUp:
+            print("other mouse")
+        default:
+            print("no function for this key")
         }
     }
 

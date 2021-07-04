@@ -5,33 +5,54 @@
 //  Created by James on 7/2/21.
 //  Copyright © 2021 James. All rights reserved.
 //
+// reference: https://stackoverflow.com/questions/47480873/set-the-size-and-position-of-all-windows-on-the-screen-in-swift
+// reference: https://stackoverflow.com/questions/21069066/move-other-windows-on-mac-os-x-using-accessibility-api
 
 import Foundation
 
+/**
+ Representation of a window that we need
+ */
 struct Window {
     let name: String
-    let x: Int
-    let y: Int
-    let width: Int
-    let height: Int
+    var x: Int
+    var y: Int
+    var width: Int
+    var height: Int
     var windowIdx: Int? // the window number, nil = the first, -1 = last
     var pid: Int32?
     
     mutating func setPID(pid: Int32?) {
         self.pid = pid
     }
+    
+    mutating func setSize(width: Int, height: Int) {
+        self.width = width
+        self.height = height
+    }
+    
+    mutating func setPosition(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
 
     var description: String {
         return "\(name) (\(x), \(y)) (\(width), \(height)) \(windowIdx ?? 0)"
     }
+    
+    func toJSON() -> String {
+        let windowIdxStr: String = windowIdx == nil ? "" : ", \"windowIdx\": \(windowIdx!)"
+        return """
+{"name": "\(name)", "x": \(x), "y": \(y), "width": \(width), "height": \(height)\(windowIdxStr)}
+"""
+    }
 }
 
 /**
- Get pids by name
+ Get pid by window owner name
  */
 func getPIDByName(name: String) -> Int32? {
-    if let windowList = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: AnyObject]] {
-
+    if let windowList = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: AnyObject]] {
         for window in windowList {
             if  let windowOwner = window[kCGWindowOwnerName as String] as? String,
                 windowOwner == name,
@@ -45,9 +66,9 @@ func getPIDByName(name: String) -> Int32? {
 }
 
 /**
- Sets the window size and position by pid
+ Get the window handle by pid and window index
  */
-func setByPID(pid: Int32, windowIdx: Int?, x: Int, y: Int, width: Int, height: Int) -> Bool {
+func getWindowByPID(pid: Int32, windowIdx: Int?) -> AXUIElement? {
     // get handle
     let app = AXUIElementCreateApplication(pid)
     var value: AnyObject?
@@ -57,8 +78,8 @@ func setByPID(pid: Int32, windowIdx: Int?, x: Int, y: Int, width: Int, height: I
         &value
     ) as AXError
     if result.rawValue != 0 {
-        print("Error: \(result.rawValue)")
-        return false
+        print("Error getting window: \(result.rawValue)")
+        return nil
     }
     
     // get window by window index
@@ -70,9 +91,18 @@ func setByPID(pid: Int32, windowIdx: Int?, x: Int, y: Int, width: Int, height: I
         wid >= 0
     else {
         print("Failed to get window \(windowIdx ?? 0) for \(pid)")
-        return false
+        return nil
     }
     let window = windows[wid]
+    return window
+}
+
+/**
+ Sets the window size and position by pid
+ */
+func setByPID(pid: Int32, windowIdx: Int?, x: Int, y: Int, width: Int, height: Int) -> Bool {
+    guard let window = getWindowByPID(pid: pid, windowIdx: windowIdx) else {return false}
+
     // got window, set attr
     var point = CGPoint(x: x, y: y)
     let position = AXValueCreate(
@@ -98,19 +128,28 @@ func setByPID(pid: Int32, windowIdx: Int?, x: Int, y: Int, width: Int, height: I
     return true
 }
 
+/**
+ Set window attributes by Window object
+ */
 func setByWindow(window: Window) -> Bool {
     return setByPID(pid: window.pid!, windowIdx: window.windowIdx, x: window.x, y: window.y, width: window.width, height: window.height)
 }
 
-func setWindows(windows: inout [Window]) {
+/**
+ Makes sure that each window object in the list has a pid and tries to get one if not
+ then passes the window to a handler, so when the handler receives a window,
+ it can assume that the window has a pid
+ */
+func ensurePID(windows: inout [Window], operation: (inout Window) -> Bool) {
     var errors: [String] = []
+
     for (i, _) in windows.enumerated() {
         if (windows[i].pid == nil) {
             print("\(windows[i].name) pid not cached, getting its pid")
             windows[i].setPID(pid: getPIDByName(name: windows[i].name))
             if windows[i].pid == nil {
                 // stil can't set pid
-                errors.append("\(windows[i]) can't get pid")
+                errors.append("\(windows[i].name) can't get pid")
                 continue
             }
         }
@@ -118,16 +157,77 @@ func setWindows(windows: inout [Window]) {
             print("\(windows[i].name) pid cache hit")
         }
 
-        if !setByWindow(window: windows[i]) {
+        if !operation(&windows[i]) {
             // maybe pid changed, do it again
-            print("\(windows[i]) pid cache expired, trying to renew it")
+            print("\(windows[i].name) pid cache expired, trying to renew it")
             windows[i].setPID(pid: getPIDByName(name: windows[i].name))
-            if !setByWindow(window: windows[i]) {
-                errors.append("Can't set window for \(windows[i].name)") // give up
+            
+            if windows[i].pid == nil || !operation(&windows[i]) {
+                errors.append("Can't perform operation on window for \(windows[i].name)") // give up
             }
         }
     }
     if !errors.isEmpty {
         notification(title: "Some operations weren't successful", text: errors.joined(separator: "\n"))
+    }
+}
+
+/**
+ Set the window attribute given a list of windows, might need to change the refernence
+ */
+func setWindows(windows: inout [Window]) {
+    ensurePID(windows: &windows) { (window: inout Window) in
+        setByWindow(window: window)
+    }
+}
+
+/**
+ Gets and fills info given a window, overwrites the attributes
+ */
+func getInfoByPID(window: inout Window) -> Bool {
+    guard window.pid != nil else {return false}
+    guard let processWindow = getWindowByPID(pid: window.pid!, windowIdx: window.windowIdx) else {
+        return false
+    }
+    var positionRef: CFTypeRef?
+    var sizeRef: CFTypeRef?
+    let positionError = AXUIElementCopyAttributeValue(processWindow, kAXPositionAttribute as CFString, &positionRef)
+    let sizeError = AXUIElementCopyAttributeValue(processWindow, kAXSizeAttribute as CFString, &sizeRef)
+    guard
+        positionError.rawValue == 0,
+        sizeError.rawValue == 0
+    else {
+        print("can't get info for \(window.name)")
+        return false
+    }
+    var position: CGPoint = CGPoint()
+    var size: CGSize = CGSize()
+    AXValueGetValue(positionRef as! AXValue, AXValueType(rawValue: kAXValueCGPointType)!, &position)
+    AXValueGetValue(sizeRef as! AXValue, AXValueType(rawValue: kAXValueCGSizeType)!, &size)
+
+    window.setPosition(x: Int(position.x), y: Int(position.y))
+    window.setSize(width: Int(size.width), height: Int(size.height))
+
+    return true
+}
+
+/**
+ Saves the current config in memory, also ask user if they want to save it to a file
+ */
+func saveWindows(windows: inout [Window]) {
+    ensurePID(windows: &windows) { (window: inout Window) in
+        getInfoByPID(window: &window)
+    }
+    let _windows = windows
+    notification(
+        title: "Info has been updated",
+        text: "Now you have:\n\(_windows.map{$0.description}.joined(separator: "\n"))\nWould you like to save it to a file?") { alert in
+        alert.addButton(withTitle: "Save")
+        alert.addButton(withTitle: "Discard")
+        if alert.runModal() == .alertFirstButtonReturn {
+            if !saveToFile(windows: _windows) {
+                print("cannot save file")
+            }
+        }
     }
 }

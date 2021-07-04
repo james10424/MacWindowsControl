@@ -11,6 +11,11 @@ import AppKit
 
 let title = "❖"
 
+/**
+ Read the file given file name
+ 
+ Return the object read if success
+ */
 func readWindows(fname: String) -> [[String: AnyObject]]? {
     guard
         let content = try? String(contentsOfFile: fname),
@@ -29,6 +34,9 @@ func readWindows(fname: String) -> [[String: AnyObject]]? {
     }
 }
 
+/**
+ Convert the file string to Window object
+ */
 func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
     var windows: [Window] = []
     var invalids: [[String: AnyObject]] = []
@@ -54,6 +62,23 @@ func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
     return windows
 }
 
+/**
+ Reads the config from storage, or select a new file. If no previously saved storage, select a new file
+ 
+ returns the object read if success
+ 
+ The config has the following format:
+ [
+    {
+        "name": "window name",
+        "x": 2561,
+        "y": -1093,
+        "width": 1079,
+        "height": 614
+    },
+    ...
+ ]
+ */
 func readConfig(selectFile: Bool) -> [[String: AnyObject]]? {
     let defaults = UserDefaults.standard
     var fname: String?
@@ -76,15 +101,29 @@ func readConfig(selectFile: Bool) -> [[String: AnyObject]]? {
     return ws
 }
 
-func notification(title: String, text: String) {
+/**
+ Displays a dialog, optional handler to handle what happens with the window and key press
+ */
+func notification(title: String, text: String, handler: ((NSAlert) -> Void)? = nil) {
     let alert = NSAlert()
     alert.messageText = title
     alert.informativeText = text
     alert.alertStyle = .warning
-    alert.addButton(withTitle: "OK")
-    alert.runModal()
+
+    if handler != nil {
+        handler!(alert)
+    }
+    else {
+        alert.addButton(withTitle: "OK")
+        alert.runModal()
+    }
 }
 
+/**
+ Ask for a file path, optional pre-selected file
+ 
+ Return the file name if successful
+ */
 func askForFile(defaultFile: String?) -> String? {
     let dialog = NSOpenPanel()
     dialog.title = "Choose a window config file (json)"
@@ -100,4 +139,35 @@ func askForFile(defaultFile: String?) -> String? {
         return dialog.url?.path
     }
     return nil
+}
+
+/**
+ Save a json representation of given windows to a file
+ 
+ Return true if it has successfully been saved
+ */
+func saveToFile(windows: [Window]) -> Bool {
+    let dialog = NSSavePanel()
+    dialog.nameFieldStringValue = "windowLocations"
+    dialog.allowedFileTypes = ["json"]
+    
+    var success = false
+    
+    dialog.begin() { (result) -> Void in
+        if  result == .OK,
+            let fname = dialog.url {
+            let jsonString = "[\(windows.map{$0.toJSON()}.joined(separator: ","))]"
+            do {
+                try jsonString.write(to: fname, atomically: true, encoding: .utf8)
+                success = true
+            } catch {
+                print("Error writing to file: \(error)")
+                success = false
+            }
+        }
+        else {
+            success = false
+        }
+    }
+    return success
 }
