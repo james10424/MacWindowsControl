@@ -16,6 +16,7 @@
 		1AF994F8268EB8D1002C3E4D /* WindowsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF994F7268EB8D1002C3E4D /* WindowsUITests.swift */; };
 		1AF99506268F4413002C3E4D /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF99505268F4413002C3E4D /* constants.swift */; };
 		1AF9950C268FD2C9002C3E4D /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF9950B268FD2C9002C3E4D /* WindowManager.swift */; };
+		1AF9950E26922180002C3E4D /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 1AF9950D26922180002C3E4D /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		1AF994F9268EB8D1002C3E4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AF99505268F4413002C3E4D /* constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 		1AF9950B268FD2C9002C3E4D /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		1AF9950D26922180002C3E4D /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 		1AF994CA268EB8D0002C3E4D = {
 			isa = PBXGroup;
 			children = (
+				1AF9950D26922180002C3E4D /* LICENSE */,
 				1AF994D5268EB8D0002C3E4D /* Windows */,
 				1AF994EB268EB8D1002C3E4D /* WindowsTests */,
 				1AF994F6268EB8D1002C3E4D /* WindowsUITests */,
@@ -247,6 +250,7 @@
 			files = (
 				1AF994E1268EB8D1002C3E4D /* Main.storyboard in Resources */,
 				1AF994DE268EB8D1002C3E4D /* Preview Assets.xcassets in Resources */,
+				1AF9950E26922180002C3E4D /* LICENSE in Resources */,
 				1AF994DB268EB8D1002C3E4D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
