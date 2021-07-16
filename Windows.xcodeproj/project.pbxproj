@@ -37,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A3BF57626A1B8CB00314013 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1AF994D3268EB8D0002C3E4D /* Windows.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Windows.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF994D6268EB8D0002C3E4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1AF994D8268EB8D0002C3E4D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -84,6 +85,7 @@
 		1AF994CA268EB8D0002C3E4D = {
 			isa = PBXGroup;
 			children = (
+				1A3BF57626A1B8CB00314013 /* README.md */,
 				1AF9950D26922180002C3E4D /* LICENSE */,
 				1AF994D5268EB8D0002C3E4D /* Windows */,
 				1AF994EB268EB8D1002C3E4D /* WindowsTests */,
