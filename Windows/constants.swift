@@ -126,7 +126,7 @@ func notification(title: String, text: String, handler: ((NSAlert) -> Void)? = n
  */
 func askForFile(defaultFile: String?) -> String? {
     let dialog = NSOpenPanel()
-    dialog.title = "Choose a window config file (json)"
+    dialog.message = "Choose a window config file (json)"
     dialog.showsResizeIndicator = true
     dialog.showsHiddenFiles = false
     dialog.allowsMultipleSelection = false
