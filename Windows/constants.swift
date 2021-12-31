@@ -84,7 +84,7 @@ func readConfig(selectFile: Bool) -> [[String: AnyObject]]? {
     var fname: String?
     let defaultFile = defaults.string(forKey: "windowConfig")
     if selectFile || defaultFile == nil {
-        fname = askForFile(defaultFile: nil)
+        fname = askForFile(defaultFile: defaultFile)
     }
     else {
         fname = defaultFile
