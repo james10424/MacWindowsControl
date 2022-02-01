@@ -47,6 +47,10 @@ class TableViewController: NSViewController {
         self.windowViewModel.windows = self.appDelegate.windows!
         self.tableView.reloadData()
     }
+    
+    @IBAction func save(_ sender: Any) {
+        var _ = saveToFile(windows: self.windowViewModel.windows)
+    }
 }
 
 extension TableViewController: NSTableViewDataSource {
