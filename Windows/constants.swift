@@ -56,9 +56,9 @@ func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
     if !invalids.isEmpty {
         notification(title: "Some operations weren't successful", text: invalids.map{"\($0)"}.joined(separator: "\n"))
     }
-    else {
-        notification(title: "Parsed these windows", text: windows.map{"\($0.description)"}.joined(separator: "\n"))
-    }
+//    else {
+//        notification(title: "Parsed these windows", text: windows.map{"\($0.description)"}.joined(separator: "\n"))
+//    }
     return windows
 }
 

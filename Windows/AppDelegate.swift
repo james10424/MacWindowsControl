@@ -13,6 +13,7 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem!
     var windows: [Window]?
+    var ui: NSWindowController?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
@@ -34,6 +35,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         windows = fileToWindows(content: ws)
     }
     
+    func startUI() {
+        ui = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "ui") as? NSWindowController
+        ui?.showWindow(nil)
+    }
+    
     @objc func click(sender: NSStatusItem) {
         guard let e = NSApp.currentEvent else {return}
         switch e.type {
@@ -42,15 +48,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             setWindows(windows: &windows!)
             break
         case .rightMouseUp:
-            if e.modifierFlags.contains(.shift) {
-                saveWindows(windows: &windows!)
-            }
-            else {
-                initWindow(selectFile: true) // re select a file
-            }
+            self.startUI()
+//            if e.modifierFlags.contains(.shift) {
+//                saveWindows(windows: &windows!)
+//            }
+//            else {
+//                initWindow(selectFile: true) // re select a file
+//            }
             break
         case .otherMouseUp:
             print("other mouse")
+            break
         default:
             print("no function for this key")
         }

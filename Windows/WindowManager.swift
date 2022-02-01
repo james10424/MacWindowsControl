@@ -13,7 +13,7 @@ import Foundation
 /**
  Representation of a window that we need
  */
-struct Window {
+struct Window: Codable {
     let name: String
     var x: Int
     var y: Int
@@ -78,7 +78,11 @@ func getWindowByPID(pid: Int32, windowIdx: Int?) -> AXUIElement? {
         &value
     ) as AXError
     if result.rawValue != 0 {
-        print("Error getting window: \(result.rawValue)")
+        if result == .apiDisabled {
+            print("Assistive access disabled")
+        } else {
+            print("Error getting window: \(result.rawValue)")
+        }
         return nil
     }
     
@@ -154,7 +158,7 @@ func ensurePID(windows: inout [Window], operation: (inout Window) -> Bool) {
             }
         }
         else {
-            print("\(windows[i].name) pid cache hit")
+            print("\(windows[i].name) pid cache hit: \(windows[i].pid!)")
         }
 
         if !operation(&windows[i]) {
@@ -168,7 +172,10 @@ func ensurePID(windows: inout [Window], operation: (inout Window) -> Bool) {
         }
     }
     if !errors.isEmpty {
-        notification(title: "Some operations weren't successful", text: errors.joined(separator: "\n"))
+        notification(
+            title: "Some operations weren't successful",
+            text: errors.joined(separator: "\n")
+        )
     }
 }
 
