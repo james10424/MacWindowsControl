@@ -20,10 +20,11 @@ let col_to_cell = [
 class TableViewController: NSViewController {
     @IBOutlet weak var tableView: NSTableView!
     var windowViewModel: WindowViewModel!
+    var appDelegate: AppDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let appDelegate = NSApplication.shared.delegate as! AppDelegate
+        self.appDelegate = NSApplication.shared.delegate as? AppDelegate
         self.windowViewModel = WindowViewModel(appDelegate.windows!)
 
         tableView.delegate = self
@@ -38,6 +39,12 @@ class TableViewController: NSViewController {
     @IBAction func locate(_ sender: Any) {
         let selected_rows = self.tableView.selectedRowIndexes
         saveWindows(windows: &self.windowViewModel.windows, filter: selected_rows)
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func open(_ sender: Any) {
+        self.appDelegate.initWindow(selectFile: true)
+        self.windowViewModel.windows = self.appDelegate.windows!
         self.tableView.reloadData()
     }
 }

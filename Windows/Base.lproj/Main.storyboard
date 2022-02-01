@@ -982,6 +982,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="open:" target="fhj-UH-A1G" id="yZO-5D-LOj"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9TM-Tn-fFt">
                                 <rect key="frame" x="403" y="1" width="75" height="32"/>
