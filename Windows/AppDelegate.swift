@@ -36,8 +36,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func startUI() {
-        ui = NSStoryboard(name: "Main", bundle: nil).instantiateController(withIdentifier: "ui") as? NSWindowController
-        ui?.showWindow(nil)
+        if self.ui == nil {
+            self.ui = NSStoryboard(
+                name: "Main",
+                bundle: nil
+            ).instantiateController(withIdentifier: "ui") as? NSWindowController
+        }
+        self.ui?.showWindow(nil)
     }
     
     @objc func click(sender: NSStatusItem) {

@@ -687,7 +687,7 @@
                 <windowController storyboardIdentifier="ui" id="rbx-WZ-IhG" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="a4c-SA-obN">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
                         <rect key="contentRect" x="832" y="1783" width="480" height="270"/>
                         <rect key="screenRect" x="512" y="1440" width="2048" height="1129"/>
                         <connections>
@@ -1001,6 +1001,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="locate:" target="fhj-UH-A1G" id="e9b-8W-Iko"/>
+                                </connections>
                             </button>
                         </subviews>
                     </view>

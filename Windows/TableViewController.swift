@@ -31,16 +31,12 @@ class TableViewController: NSViewController {
     }
     
     @IBAction func apply(_ sender: Any) {
-//        print(self.windowViewModel.windows[0].)
         let selected_rows = self.tableView.selectedRowIndexes
-        if selected_rows.count == 0 {
-            setWindows(windows: &self.windowViewModel.windows)
-        } else {
-            var filtered_windows = selected_rows.map {
-                self.windowViewModel.windows[$0]
-            }
-            setWindows(windows: &filtered_windows)
-        }
+        setWindows(windows: &self.windowViewModel.windows, filter: selected_rows)
+    }
+    
+    @IBAction func locate(_ sender: Any) {
+        
     }
 }
 

@@ -136,7 +136,14 @@ func setByPID(pid: Int32, windowIdx: Int?, x: Int, y: Int, width: Int, height: I
  Set window attributes by Window object
  */
 func setByWindow(window: Window) -> Bool {
-    return setByPID(pid: window.pid!, windowIdx: window.windowIdx, x: window.x, y: window.y, width: window.width, height: window.height)
+    return setByPID(
+        pid: window.pid!,
+        windowIdx: window.windowIdx,
+        x: window.x,
+        y: window.y,
+        width: window.width,
+        height: window.height
+    )
 }
 
 /**
@@ -144,10 +151,10 @@ func setByWindow(window: Window) -> Bool {
  then passes the window to a handler, so when the handler receives a window,
  it can assume that the window has a pid
  */
-func ensurePID(windows: inout [Window], operation: (inout Window) -> Bool) {
+func ensurePID(windows: inout [Window], filter: IndexSet?, operation: (inout Window) -> Bool) {
     var errors: [String] = []
-
-    for (i, _) in windows.enumerated() {
+    let indicies = ((filter?.count ?? 0) > 0) ? filter! : IndexSet(windows.indices)
+    for i in indicies {
         if (windows[i].pid == nil) {
             print("\(windows[i].name) pid not cached, getting its pid")
             windows[i].setPID(pid: getPIDByName(name: windows[i].name))
@@ -182,8 +189,8 @@ func ensurePID(windows: inout [Window], operation: (inout Window) -> Bool) {
 /**
  Set the window attribute given a list of windows, might need to change the refernence
  */
-func setWindows(windows: inout [Window]) {
-    ensurePID(windows: &windows) { (window: inout Window) in
+func setWindows(windows: inout [Window], filter: IndexSet? = nil) {
+    ensurePID(windows: &windows, filter: filter) { (window: inout Window) in
         setByWindow(window: window)
     }
 }
@@ -222,7 +229,7 @@ func getInfoByPID(window: inout Window) -> Bool {
  Saves the current config in memory, also ask user if they want to save it to a file
  */
 func saveWindows(windows: inout [Window]) {
-    ensurePID(windows: &windows) { (window: inout Window) in
+    ensurePID(windows: &windows, filter: nil) { (window: inout Window) in
         getInfoByPID(window: &window)
     }
     let _windows = windows
