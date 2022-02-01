@@ -13,7 +13,12 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem!
     var windows: [Window]?
-    var ui: NSWindowController?
+    lazy var ui: NSWindowController? = {
+        NSStoryboard(
+            name: "Main",
+            bundle: nil
+        ).instantiateController(withIdentifier: "ui") as? NSWindowController
+    }()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
@@ -36,12 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func startUI() {
-        if self.ui == nil {
-            self.ui = NSStoryboard(
-                name: "Main",
-                bundle: nil
-            ).instantiateController(withIdentifier: "ui") as? NSWindowController
-        }
         self.ui?.showWindow(nil)
     }
     
