@@ -228,20 +228,8 @@ func getInfoByPID(window: inout Window) -> Bool {
 /**
  Saves the current config in memory, also ask user if they want to save it to a file
  */
-func saveWindows(windows: inout [Window]) {
-    ensurePID(windows: &windows, filter: nil) { (window: inout Window) in
+func saveWindows(windows: inout [Window], filter: IndexSet? = nil) {
+    ensurePID(windows: &windows, filter: filter) { (window: inout Window) in
         getInfoByPID(window: &window)
-    }
-    let _windows = windows
-    notification(
-        title: "Info has been updated",
-        text: "Now you have:\n\(_windows.map{$0.description}.joined(separator: "\n"))\nWould you like to save it to a file?") { alert in
-        alert.addButton(withTitle: "Save")
-        alert.addButton(withTitle: "Discard")
-        if alert.runModal() == .alertFirstButtonReturn {
-            if !saveToFile(windows: _windows) {
-                print("cannot save file")
-            }
-        }
     }
 }

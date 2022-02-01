@@ -36,7 +36,9 @@ class TableViewController: NSViewController {
     }
     
     @IBAction func locate(_ sender: Any) {
-        
+        let selected_rows = self.tableView.selectedRowIndexes
+        saveWindows(windows: &self.windowViewModel.windows, filter: selected_rows)
+        self.tableView.reloadData()
     }
 }
 
