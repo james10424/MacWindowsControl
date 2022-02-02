@@ -238,3 +238,10 @@ func saveWindows(windows: inout [Window], filter: IndexSet? = nil) {
         getInfoByPID(window: &window)
     }
 }
+
+let DEFAULT_WINDOW = Window(
+    name: "New Window",
+    x: 0, y: 0,
+    width: 0, height: 0,
+    windowIdx: 0
+)

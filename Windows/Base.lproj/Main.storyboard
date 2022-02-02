@@ -751,6 +751,8 @@
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <action selector="windowNameEdit:" target="fhj-UH-A1G" id="yfX-vV-XtF"/>
+                                                                        <outlet property="delegate" destination="fhj-UH-A1G" id="Xtf-Nl-da6"/>
+                                                                        <outlet property="formatter" destination="p2v-qg-XqK" id="Y4b-mL-RMt"/>
                                                                     </connections>
                                                                 </textField>
                                                             </subviews>
@@ -787,6 +789,7 @@
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <action selector="indexEdit:" target="fhj-UH-A1G" id="Sd7-BX-bEb"/>
+                                                                        <outlet property="delegate" destination="fhj-UH-A1G" id="hxn-uT-gIe"/>
                                                                         <outlet property="formatter" destination="qbl-GB-4yr" id="WBn-0E-CVt"/>
                                                                     </connections>
                                                                 </textField>
@@ -824,6 +827,7 @@
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <action selector="xEdit:" target="fhj-UH-A1G" id="tXd-Hj-dgS"/>
+                                                                        <outlet property="delegate" destination="fhj-UH-A1G" id="vv1-zJ-EtV"/>
                                                                         <outlet property="formatter" destination="qbl-GB-4yr" id="DLe-m6-vGv"/>
                                                                     </connections>
                                                                 </textField>
@@ -861,6 +865,7 @@
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <action selector="yEdit:" target="fhj-UH-A1G" id="YoW-Uf-qbC"/>
+                                                                        <outlet property="delegate" destination="fhj-UH-A1G" id="0ta-tY-Wgh"/>
                                                                         <outlet property="formatter" destination="qbl-GB-4yr" id="geg-DH-Vie"/>
                                                                     </connections>
                                                                 </textField>
@@ -898,6 +903,7 @@
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <action selector="widthEdit:" target="fhj-UH-A1G" id="XeN-To-D44"/>
+                                                                        <outlet property="delegate" destination="fhj-UH-A1G" id="7IZ-dR-QCW"/>
                                                                         <outlet property="formatter" destination="qbl-GB-4yr" id="stl-F2-s5c"/>
                                                                     </connections>
                                                                 </textField>
@@ -935,6 +941,7 @@
                                                                     </textFieldCell>
                                                                     <connections>
                                                                         <action selector="heightEdit:" target="fhj-UH-A1G" id="bcf-H7-JJo"/>
+                                                                        <outlet property="delegate" destination="fhj-UH-A1G" id="esE-uw-iIf"/>
                                                                         <outlet property="formatter" destination="qbl-GB-4yr" id="tE6-l0-Y2Q"/>
                                                                     </connections>
                                                                 </textField>
@@ -1051,6 +1058,7 @@
                 </viewController>
                 <customObject id="PVo-DH-X6n" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <numberFormatter formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="qbl-GB-4yr" customClass="NoSeparatorNumberFormatter" customModule="Windows" customModuleProvider="target"/>
+                <customFormatter id="p2v-qg-XqK" customClass="NonEmptyFormatter" customModule="Windows" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="74" y="-675"/>
         </scene>

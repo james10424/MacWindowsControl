@@ -53,6 +53,15 @@ class TableViewController: NSViewController {
     }
     
     @IBAction func remove(_ sender: Any) {
+        // stop existing editing
+        guard
+            let table_window = self.tableView.window,
+            table_window.makeFirstResponder(table_window)
+        else {
+            print("Failed to stop editing")
+            return
+        }
+
         let selected_rows = self.tableView.selectedRowIndexes
         guard selected_rows.count > 0 else {return}
         let filtered_windows = self.windows.indices.filter {
@@ -70,10 +79,15 @@ class TableViewController: NSViewController {
         guard
             let table_window = self.tableView.window,
             table_window.makeFirstResponder(table_window)
-        else {return}
-        
-        // new row
-        self.tableView.editColumn(0, row: 0, with: nil, select: true)
+        else {
+            print("Failed to stop editing")
+            return
+        }
+
+        // add a new item with default values
+        self.windows.append(DEFAULT_WINDOW)
+        self.tableView.reloadData()
+        self.tableView.editColumn(0, row: self.windows.count - 1, with: nil, select: true)
     }
     
     @IBAction func rowSelectionDidChange(_ sender: Any) {
@@ -166,5 +180,37 @@ extension TableViewController: NSTableViewDelegate {
         }
 
         return cellView
+    }
+    
+    func controlTextDidEndEditing(_ obj: Notification) {
+        // go to the next or prev col via tab
+        guard
+            let view = obj.object as? NSView,
+            let textMovementInt = obj.userInfo?["NSTextMovement"] as? Int,
+            let textMovement = NSTextMovement(rawValue: textMovementInt)
+        else {
+            print("Failed to handle control text end editing")
+            return
+        }
+        
+        let col = self.tableView.column(for: view)
+        let row = self.tableView.row(for: view)
+        
+        let next_col: Int
+        
+        switch textMovement {
+        case .tab:
+            next_col = col + 1
+            break
+        case .backtab:
+            next_col = col - 1
+        default: return
+        }
+        
+        if next_col >= 0 && next_col < self.windows.count {
+            DispatchQueue.main.async {
+                self.tableView.editColumn(next_col, row: row, with: nil, select: true)
+            }
+        }
     }
 }

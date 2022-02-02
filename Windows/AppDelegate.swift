@@ -42,6 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func startUI() {
         self.ui?.showWindow(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     @objc func click(sender: NSStatusItem) {
@@ -53,12 +54,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             break
         case .rightMouseUp:
             self.startUI()
-//            if e.modifierFlags.contains(.shift) {
-//                saveWindows(windows: &windows!)
-//            }
-//            else {
-//                initWindow(selectFile: true) // re select a file
-//            }
             break
         case .otherMouseUp:
             print("other mouse")

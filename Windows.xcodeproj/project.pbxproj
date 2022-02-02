@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A2D8C8B27A68FAF00CF6BD8 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D8C8A27A68FAF00CF6BD8 /* TableViewController.swift */; };
 		1A2D8C9327AA31AC00CF6BD8 /* NoSeparatorNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D8C9227AA31AC00CF6BD8 /* NoSeparatorNumberFormatter.swift */; };
+		1A2D8C9727AA409100CF6BD8 /* NonEmptyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2D8C9627AA409100CF6BD8 /* NonEmptyFormatter.swift */; };
 		1AF994D7268EB8D0002C3E4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF994D6268EB8D0002C3E4D /* AppDelegate.swift */; };
 		1AF994DB268EB8D1002C3E4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF994DA268EB8D1002C3E4D /* Assets.xcassets */; };
 		1AF994DE268EB8D1002C3E4D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AF994DD268EB8D1002C3E4D /* Preview Assets.xcassets */; };
@@ -40,6 +41,7 @@
 /* Begin PBXFileReference section */
 		1A2D8C8A27A68FAF00CF6BD8 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		1A2D8C9227AA31AC00CF6BD8 /* NoSeparatorNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSeparatorNumberFormatter.swift; sourceTree = "<group>"; };
+		1A2D8C9627AA409100CF6BD8 /* NonEmptyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonEmptyFormatter.swift; sourceTree = "<group>"; };
 		1A3BF57626A1B8CB00314013 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1AF994D3268EB8D0002C3E4D /* Windows.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Windows.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AF994D6268EB8D0002C3E4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				1AF994DC268EB8D1002C3E4D /* Preview Content */,
 				1A2D8C8A27A68FAF00CF6BD8 /* TableViewController.swift */,
 				1A2D8C9227AA31AC00CF6BD8 /* NoSeparatorNumberFormatter.swift */,
+				1A2D8C9627AA409100CF6BD8 /* NonEmptyFormatter.swift */,
 			);
 			path = Windows;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			files = (
 				1AF994D7268EB8D0002C3E4D /* AppDelegate.swift in Sources */,
 				1A2D8C9327AA31AC00CF6BD8 /* NoSeparatorNumberFormatter.swift in Sources */,
+				1A2D8C9727AA409100CF6BD8 /* NonEmptyFormatter.swift in Sources */,
 				1AF99506268F4413002C3E4D /* constants.swift in Sources */,
 				1AF9950C268FD2C9002C3E4D /* WindowManager.swift in Sources */,
 				1A2D8C8B27A68FAF00CF6BD8 /* TableViewController.swift in Sources */,
