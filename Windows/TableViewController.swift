@@ -207,7 +207,7 @@ extension TableViewController: NSTableViewDelegate {
         default: return
         }
         
-        if next_col >= 0 && next_col < self.windows.count {
+        if next_col >= 0 && next_col < self.tableView.numberOfColumns {
             DispatchQueue.main.async {
                 self.tableView.editColumn(next_col, row: row, with: nil, select: true)
             }

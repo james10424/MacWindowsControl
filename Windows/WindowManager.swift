@@ -9,6 +9,7 @@
 // reference: https://stackoverflow.com/questions/21069066/move-other-windows-on-mac-os-x-using-accessibility-api
 
 import Foundation
+import AppKit
 
 /**
  Representation of a window that we need
