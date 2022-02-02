@@ -749,6 +749,9 @@
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <action selector="windowNameEdit:" target="fhj-UH-A1G" id="yfX-vV-XtF"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
@@ -782,6 +785,10 @@
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <action selector="indexEdit:" target="fhj-UH-A1G" id="Sd7-BX-bEb"/>
+                                                                        <outlet property="formatter" destination="qbl-GB-4yr" id="WBn-0E-CVt"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
@@ -815,6 +822,10 @@
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <action selector="xEdit:" target="fhj-UH-A1G" id="tXd-Hj-dgS"/>
+                                                                        <outlet property="formatter" destination="qbl-GB-4yr" id="DLe-m6-vGv"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
@@ -848,6 +859,10 @@
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <action selector="yEdit:" target="fhj-UH-A1G" id="YoW-Uf-qbC"/>
+                                                                        <outlet property="formatter" destination="qbl-GB-4yr" id="geg-DH-Vie"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
@@ -881,6 +896,10 @@
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <action selector="widthEdit:" target="fhj-UH-A1G" id="XeN-To-D44"/>
+                                                                        <outlet property="formatter" destination="qbl-GB-4yr" id="stl-F2-s5c"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
@@ -914,6 +933,10 @@
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
+                                                                    <connections>
+                                                                        <action selector="heightEdit:" target="fhj-UH-A1G" id="bcf-H7-JJo"/>
+                                                                        <outlet property="formatter" destination="qbl-GB-4yr" id="tE6-l0-Y2Q"/>
+                                                                    </connections>
                                                                 </textField>
                                                             </subviews>
                                                             <connections>
@@ -923,6 +946,9 @@
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
+                                            <connections>
+                                                <action selector="rowSelectionDidChange:" target="fhj-UH-A1G" id="Gc8-ZE-uTI"/>
+                                            </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
@@ -948,6 +974,9 @@
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="add:" target="fhj-UH-A1G" id="bnw-CG-hdG"/>
+                                        </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="E9w-io-Ud3">
                                         <rect key="frame" x="65" y="-7" width="89" height="32"/>
@@ -1021,6 +1050,7 @@
                     </connections>
                 </viewController>
                 <customObject id="PVo-DH-X6n" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <numberFormatter formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="qbl-GB-4yr" customClass="NoSeparatorNumberFormatter" customModule="Windows" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="74" y="-675"/>
         </scene>

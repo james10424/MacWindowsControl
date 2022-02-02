@@ -14,7 +14,12 @@ import Foundation
  Representation of a window that we need
  */
 struct Window: Codable {
-    let name: String
+    var name: String {
+        didSet {
+            // setting new window name invalidates PID
+            pid = nil
+        }
+    }
     var x: Int
     var y: Int
     var width: Int

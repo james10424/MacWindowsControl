@@ -64,6 +64,57 @@ class TableViewController: NSViewController {
         self.windows = filtered_windows
         self.tableView.reloadData()
     }
+    
+    @IBAction func add(_ sender: Any) {
+        // stop existing editing
+        guard
+            let table_window = self.tableView.window,
+            table_window.makeFirstResponder(table_window)
+        else {return}
+        
+        // new row
+        self.tableView.editColumn(0, row: 0, with: nil, select: true)
+    }
+    
+    @IBAction func rowSelectionDidChange(_ sender: Any) {
+        
+    }
+
+    @IBAction func windowNameEdit(_ sender: NSTextField) {
+        let row = self.tableView.row(for: sender as NSView)
+        self.windows[row].name = sender.stringValue
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func indexEdit(_ sender: NSTextField) {
+        let row = self.tableView.row(for: sender as NSView)
+        self.windows[row].windowIdx = sender.integerValue
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func xEdit(_ sender: NSTextField) {
+        let row = self.tableView.row(for: sender as NSView)
+        self.windows[row].x = sender.integerValue
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func yEdit(_ sender: NSTextField) {
+        let row = self.tableView.row(for: sender as NSView)
+        self.windows[row].y = sender.integerValue
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func widthEdit(_ sender: NSTextField) {
+        let row = self.tableView.row(for: sender as NSView)
+        self.windows[row].width = sender.integerValue
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func heightEdit(_ sender: NSTextField) {
+        let row = self.tableView.row(for: sender as NSView)
+        self.windows[row].height = sender.integerValue
+        self.tableView.reloadData()
+    }
 }
 
 extension TableViewController: NSTableViewDataSource {
