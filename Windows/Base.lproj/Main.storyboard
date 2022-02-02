@@ -685,7 +685,7 @@
         <scene sceneID="fiJ-FG-RdH">
             <objects>
                 <windowController storyboardIdentifier="ui" id="rbx-WZ-IhG" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="a4c-SA-obN">
+                    <window key="window" title="Windows" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="a4c-SA-obN">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES"/>
                         <rect key="contentRect" x="832" y="1783" width="480" height="270"/>
@@ -955,6 +955,7 @@
                                             </tableColumns>
                                             <connections>
                                                 <action selector="rowSelectionDidChange:" target="fhj-UH-A1G" id="Gc8-ZE-uTI"/>
+                                                <outlet property="delegate" destination="fhj-UH-A1G" id="8O7-F0-SPg"/>
                                             </connections>
                                         </tableView>
                                     </subviews>

@@ -44,14 +44,14 @@ class TableViewController: NSViewController {
     }
     
     @IBAction func apply(_ sender: Any) {
-        guard !self.isEditing else {return}
+        guard self.stopEditing() else {return}
 
         let selected_rows = self.tableView.selectedRowIndexes
         setWindows(windows: &self.windows, filter: selected_rows)
     }
     
     @IBAction func locate(_ sender: Any) {
-        guard !self.isEditing else {return}
+        guard self.stopEditing() else {return}
 
         let selected_rows = self.tableView.selectedRowIndexes
         saveWindows(windows: &self.windows, filter: selected_rows)
@@ -59,7 +59,7 @@ class TableViewController: NSViewController {
     }
     
     @IBAction func open(_ sender: Any) {
-        guard !self.isEditing else {return}
+        guard self.stopEditing() else {return}
 
         self.appDelegate.initWindow(selectFile: true)
         self.windows = self.appDelegate.windows!
@@ -67,12 +67,12 @@ class TableViewController: NSViewController {
     }
     
     @IBAction func save(_ sender: Any) {
-        guard !self.isEditing else {return}
+        guard self.stopEditing() else {return}
         var _ = saveToFile(windows: self.windows)
     }
     
     @IBAction func remove(_ sender: Any) {
-        guard !self.isEditing else {return}
+        guard self.stopEditing() else {return}
 
         let selected_rows = self.tableView.selectedRowIndexes
         guard selected_rows.count > 0 else {return}
@@ -101,36 +101,42 @@ class TableViewController: NSViewController {
 
     @IBAction func windowNameEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
+        guard row >= 0 && row < self.windows.count else {return}
         self.windows[row].name = sender.stringValue
         self.tableView.reloadData()
     }
     
     @IBAction func indexEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
+        guard row >= 0 && row < self.windows.count else {return}
         self.windows[row].windowIdx = sender.integerValue
         self.tableView.reloadData()
     }
     
     @IBAction func xEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
+        guard row >= 0 && row < self.windows.count else {return}
         self.windows[row].x = sender.integerValue
         self.tableView.reloadData()
     }
     
     @IBAction func yEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
+        guard row >= 0 && row < self.windows.count else {return}
         self.windows[row].y = sender.integerValue
         self.tableView.reloadData()
     }
     
     @IBAction func widthEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
+        guard row >= 0 && row < self.windows.count else {return}
         self.windows[row].width = sender.integerValue
         self.tableView.reloadData()
     }
     
     @IBAction func heightEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
+        guard row >= 0 && row < self.windows.count else {return}
         self.windows[row].height = sender.integerValue
         self.tableView.reloadData()
     }
@@ -187,14 +193,7 @@ extension TableViewController: NSTableViewDelegate {
         return cellView
     }
     
-    func controlTextDidBeginEditing(_ obj: Notification) {
-        self.isEditing = true
-        print("begin editing")
-    }
-    
     func controlTextDidEndEditing(_ obj: Notification) {
-        self.isEditing = false
-        print("end editing")
         // go to the next or prev col via tab
         guard
             let view = obj.object as? NSView,
