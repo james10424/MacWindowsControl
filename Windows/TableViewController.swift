@@ -21,6 +21,7 @@ class TableViewController: NSViewController {
     @IBOutlet weak var tableView: NSTableView!
     var windows: [Window]!
     var appDelegate: AppDelegate!
+    var isEditing: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,36 +32,47 @@ class TableViewController: NSViewController {
         tableView.dataSource = self
     }
     
+    func stopEditing() -> Bool {
+        guard
+            let table_window = self.tableView.window,
+            table_window.makeFirstResponder(table_window)
+        else {
+            print("Failed to stop editing")
+            return false
+        }
+        return true
+    }
+    
     @IBAction func apply(_ sender: Any) {
+        guard !self.isEditing else {return}
+
         let selected_rows = self.tableView.selectedRowIndexes
         setWindows(windows: &self.windows, filter: selected_rows)
     }
     
     @IBAction func locate(_ sender: Any) {
+        guard !self.isEditing else {return}
+
         let selected_rows = self.tableView.selectedRowIndexes
         saveWindows(windows: &self.windows, filter: selected_rows)
         self.tableView.reloadData()
     }
     
     @IBAction func open(_ sender: Any) {
+        guard !self.isEditing else {return}
+
         self.appDelegate.initWindow(selectFile: true)
         self.windows = self.appDelegate.windows!
         self.tableView.reloadData()
     }
     
     @IBAction func save(_ sender: Any) {
+        guard !self.isEditing else {return}
         var _ = saveToFile(windows: self.windows)
     }
     
     @IBAction func remove(_ sender: Any) {
-        // stop existing editing
-        guard
-            let table_window = self.tableView.window,
-            table_window.makeFirstResponder(table_window)
-        else {
-            print("Failed to stop editing")
-            return
-        }
+        guard !self.isEditing else {return}
 
         let selected_rows = self.tableView.selectedRowIndexes
         guard selected_rows.count > 0 else {return}
@@ -75,14 +87,7 @@ class TableViewController: NSViewController {
     }
     
     @IBAction func add(_ sender: Any) {
-        // stop existing editing
-        guard
-            let table_window = self.tableView.window,
-            table_window.makeFirstResponder(table_window)
-        else {
-            print("Failed to stop editing")
-            return
-        }
+        guard self.stopEditing() else {return}
 
         // add a new item with default values
         self.windows.append(DEFAULT_WINDOW)
@@ -182,7 +187,14 @@ extension TableViewController: NSTableViewDelegate {
         return cellView
     }
     
+    func controlTextDidBeginEditing(_ obj: Notification) {
+        self.isEditing = true
+        print("begin editing")
+    }
+    
     func controlTextDidEndEditing(_ obj: Notification) {
+        self.isEditing = false
+        print("end editing")
         // go to the next or prev col via tab
         guard
             let view = obj.object as? NSView,
