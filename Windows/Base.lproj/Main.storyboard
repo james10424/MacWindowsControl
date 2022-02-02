@@ -955,6 +955,9 @@
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="remove:" target="fhj-UH-A1G" id="ZhS-Uq-3nW"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <edgeInsets key="edgeInsets" left="10" right="0.0" top="0.0" bottom="0.0"/>
@@ -997,7 +1000,7 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="apply:" target="fhj-UH-A1G" id="joD-Ob-B2p"/>
+                                    <action selector="apply:" target="fhj-UH-A1G" id="4Ve-US-Lw5"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a93-I4-bmX">

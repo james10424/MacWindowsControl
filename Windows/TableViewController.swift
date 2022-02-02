@@ -19,13 +19,13 @@ let col_to_cell = [
 
 class TableViewController: NSViewController {
     @IBOutlet weak var tableView: NSTableView!
-    var windowViewModel: WindowViewModel!
+    var windows: [Window]!
     var appDelegate: AppDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.appDelegate = NSApplication.shared.delegate as? AppDelegate
-        self.windowViewModel = WindowViewModel(appDelegate.windows!)
+        self.windows = appDelegate.windows!
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -33,35 +33,47 @@ class TableViewController: NSViewController {
     
     @IBAction func apply(_ sender: Any) {
         let selected_rows = self.tableView.selectedRowIndexes
-        setWindows(windows: &self.windowViewModel.windows, filter: selected_rows)
+        setWindows(windows: &self.windows, filter: selected_rows)
     }
     
     @IBAction func locate(_ sender: Any) {
         let selected_rows = self.tableView.selectedRowIndexes
-        saveWindows(windows: &self.windowViewModel.windows, filter: selected_rows)
+        saveWindows(windows: &self.windows, filter: selected_rows)
         self.tableView.reloadData()
     }
     
     @IBAction func open(_ sender: Any) {
         self.appDelegate.initWindow(selectFile: true)
-        self.windowViewModel.windows = self.appDelegate.windows!
+        self.windows = self.appDelegate.windows!
         self.tableView.reloadData()
     }
     
     @IBAction func save(_ sender: Any) {
-        var _ = saveToFile(windows: self.windowViewModel.windows)
+        var _ = saveToFile(windows: self.windows)
+    }
+    
+    @IBAction func remove(_ sender: Any) {
+        let selected_rows = self.tableView.selectedRowIndexes
+        let filtered_windows = self.windows.indices.filter {
+            !selected_rows.contains($0)
+        }.map {
+            self.windows[$0]
+        }
+        self.appDelegate.windows = filtered_windows
+        self.windows = filtered_windows
+        self.tableView.reloadData()
     }
 }
 
 extension TableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return self.windowViewModel.windows.count
+        return self.windows.count
     }
 }
 
 extension TableViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let currentWindow = windowViewModel.windows[row]
+        let currentWindow = self.windows[row]
         guard
             let columnIdentifier = tableColumn?.identifier,
             let cellIdentifier = col_to_cell[columnIdentifier] else {
