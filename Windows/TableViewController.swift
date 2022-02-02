@@ -54,6 +54,7 @@ class TableViewController: NSViewController {
     
     @IBAction func remove(_ sender: Any) {
         let selected_rows = self.tableView.selectedRowIndexes
+        guard selected_rows.count > 0 else {return}
         let filtered_windows = self.windows.indices.filter {
             !selected_rows.contains($0)
         }.map {
