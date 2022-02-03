@@ -83,7 +83,13 @@ class TableViewController: NSViewController {
         }
         self.appDelegate.windows = filtered_windows
         self.windows = filtered_windows
-        self.tableView.reloadData()
+
+        self.tableView.beginUpdates()
+        self.tableView.removeRows(
+            at: selected_rows,
+            withAnimation: .slideUp
+        )
+        self.tableView.endUpdates()
     }
     
     @IBAction func add(_ sender: Any) {
@@ -91,7 +97,12 @@ class TableViewController: NSViewController {
 
         // add a new item with default values
         self.windows.append(DEFAULT_WINDOW)
-        self.tableView.reloadData()
+        self.tableView.beginUpdates()
+        self.tableView.insertRows(
+            at: IndexSet([self.windows.count - 1]),
+            withAnimation: .slideDown
+        )
+        self.tableView.endUpdates()
         self.tableView.editColumn(0, row: self.windows.count - 1, with: nil, select: true)
     }
     
