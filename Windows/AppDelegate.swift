@@ -12,7 +12,7 @@ import SwiftUI
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     var statusBarItem: NSStatusItem!
-    var windows: [Window]?
+    var windows: [Window] = []
     lazy var ui: NSWindowController? = {
         NSStoryboard(
             name: "Main",
@@ -37,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let ws = readConfig(selectFile: selectFile) else {
             return
         }
-        windows = fileToWindows(content: ws)
+        self.windows = fileToWindows(content: ws)
     }
     
     func startUI() {
@@ -49,8 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let e = NSApp.currentEvent else {return}
         switch e.type {
         case .leftMouseUp:
-            guard windows != nil else {return}
-            setWindows(windows: &windows!)
+            setWindows(windows: &self.windows)
             break
         case .rightMouseUp:
             self.startUI()

@@ -26,7 +26,7 @@ class TableViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.appDelegate = NSApplication.shared.delegate as? AppDelegate
-        self.windows = appDelegate.windows!
+        self.windows = appDelegate.windows
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -62,7 +62,7 @@ class TableViewController: NSViewController {
         guard self.stopEditing() else {return}
 
         self.appDelegate.initWindow(selectFile: true)
-        self.windows = self.appDelegate.windows!
+        self.windows = self.appDelegate.windows
         self.tableView.reloadData()
     }
     

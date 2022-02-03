@@ -47,14 +47,22 @@ func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
            let y = item["y"] as? Int,
            let width = item["width"] as? Int,
            let height = item["height"] as? Int {
-            windows.append(Window(name: name, x: x, y: y, width: width, height: height, windowIdx: windowIdx))
+            windows.append(Window(
+                name: name,
+                x: x, y: y,
+                width: width, height: height,
+                windowIdx: windowIdx
+            ))
         }
         else {
             invalids.append(item)
         }
     }
     if !invalids.isEmpty {
-        notification(title: "Some operations weren't successful", text: invalids.map{"\($0)"}.joined(separator: "\n"))
+        notification(
+            title: "Some operations weren't successful",
+            text: invalids.map{"\($0)"}.joined(separator: "\n")
+        )
     }
     return windows
 }
@@ -80,18 +88,28 @@ func readConfig(selectFile: Bool) -> [[String: AnyObject]]? {
     let defaults = UserDefaults.standard
     var fname: String?
     let defaultFile = defaults.string(forKey: "windowConfig")
-    if selectFile || defaultFile == nil {
+    if selectFile {
+        // force to select a new file or no file saved
         fname = askForFile(defaultFile: defaultFile)
+        guard fname != nil else {
+            notification(
+                title: "This doesn't work",
+                text: "You haven't selected a file"
+            )
+            return nil
+        }
     }
     else {
+        guard defaultFile != nil else {return nil}
+        // use the default file
         fname = defaultFile
     }
-    guard fname != nil else {
-        notification(title: "This doesn't work", text: "You haven't selected a file")
-        return nil
-    }
+
     guard let ws = readWindows(fname: fname!) else {
-        notification(title: "Invalid config", text: "The config file you supplied is invalid")
+        notification(
+            title: "Invalid config",
+            text: "The config file you supplied is invalid"
+        )
         return nil
     }
     defaults.set(fname, forKey: "windowConfig")
