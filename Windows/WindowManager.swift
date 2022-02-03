@@ -85,7 +85,7 @@ func getWindowByPID(pid: Int32, windowIdx: Int?) -> AXUIElement? {
     ) as AXError
     if result.rawValue != 0 {
         if result == .apiDisabled {
-            print("Assistive access disabled")
+            print("Assistive access disabled for \(pid)")
         } else {
             print("Error getting window: \(result.rawValue)")
         }
