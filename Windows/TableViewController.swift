@@ -98,47 +98,64 @@ class TableViewController: NSViewController {
     @IBAction func rowSelectionDidChange(_ sender: Any) {
         
     }
+    
+    func reloadOne(_ sender: NSTextField) {
+        let row = self.tableView.row(for: sender as NSView)
+        let col = self.tableView.column(for: sender as NSView)
+        self.tableView.beginUpdates()
+        self.tableView.reloadData(
+            forRowIndexes: IndexSet([row]),
+            columnIndexes: IndexSet([col])
+        )
+        self.tableView.endUpdates()
+    }
 
     @IBAction func windowNameEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
         guard row >= 0 && row < self.windows.count else {return}
+        guard self.windows[row].name != sender.stringValue else {return}
         self.windows[row].name = sender.stringValue
-        self.tableView.reloadData()
+        self.reloadOne(sender)
     }
     
     @IBAction func indexEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
         guard row >= 0 && row < self.windows.count else {return}
+        guard self.windows[row].windowIdx != sender.integerValue else {return}
         self.windows[row].windowIdx = sender.integerValue
-        self.tableView.reloadData()
+        self.reloadOne(sender)
     }
     
     @IBAction func xEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
         guard row >= 0 && row < self.windows.count else {return}
+        guard self.windows[row].x != sender.integerValue else {return}
         self.windows[row].x = sender.integerValue
-        self.tableView.reloadData()
+        self.reloadOne(sender)
     }
     
     @IBAction func yEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
         guard row >= 0 && row < self.windows.count else {return}
+        guard self.windows[row].y != sender.integerValue else {return}
         self.windows[row].y = sender.integerValue
-        self.tableView.reloadData()
+        self.reloadOne(sender)
     }
     
     @IBAction func widthEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
         guard row >= 0 && row < self.windows.count else {return}
+        guard self.windows[row].width != sender.integerValue else {return}
         self.windows[row].width = sender.integerValue
-        self.tableView.reloadData()
+        self.reloadOne(sender)
     }
     
     @IBAction func heightEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
         guard row >= 0 && row < self.windows.count else {return}
+        guard self.windows[row].height != sender.integerValue else {return}
         self.windows[row].height = sender.integerValue
-        self.tableView.reloadData()
+        self.reloadOne(sender)
     }
 }
 
