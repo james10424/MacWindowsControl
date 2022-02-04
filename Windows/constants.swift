@@ -156,22 +156,39 @@ func askForFile(defaultFile: String?) -> String? {
     return nil
 }
 
+func windowsToJSON(windows: [Window]) throws -> String {
+    // convert list of windows into json
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .prettyPrinted
+
+    let data = try encoder.encode(
+        windows.map {$0.jsonRepresentation}
+    )
+    return String(data: data, encoding: .utf8)!
+}
+
 /**
  Save a json representation of given windows to a file
  
  Return true if it has successfully been saved
  */
 func saveToFile(windows: [Window]) -> Bool {
+    // get json string
+    guard let jsonString = try? windowsToJSON(windows: windows)
+    else {
+        print("Failed to convert windows to json")
+        return false
+    }
+    
+    // get save file dialog
     let dialog = NSSavePanel()
+    var success = false
     dialog.nameFieldStringValue = "windowLocations"
     dialog.allowedFileTypes = ["json"]
-    
-    var success = false
     
     dialog.begin() { (result) -> Void in
         if  result == .OK,
             let fname = dialog.url {
-            let jsonString = "[\(windows.map{$0.toJSON()}.joined(separator: ","))]"
             do {
                 try jsonString.write(to: fname, atomically: true, encoding: .utf8)
                 success = true

@@ -27,6 +27,17 @@ struct Window: Codable {
     var height: Int
     var windowIdx: Int? // the window number, nil = the first, -1 = last
     var pid: Int32?
+    var jsonRepresentation: Window {
+        // strip out pid
+        return Window(
+            name: name,
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            windowIdx: windowIdx ?? 0
+        )
+    }
     
     mutating func setPID(pid: Int32?) {
         self.pid = pid
@@ -47,9 +58,15 @@ struct Window: Codable {
     }
     
     func toJSON() -> String {
-        let windowIdxStr: String = windowIdx == nil ? "" : ", \"windowIdx\": \(windowIdx!)"
+        let windowIdxStr: String = windowIdx == nil ? "" : ",\n    \"windowIdx\": \(windowIdx!)"
         return """
-{"name": "\(name)", "x": \(x), "y": \(y), "width": \(width), "height": \(height)\(windowIdxStr)}
+{
+    "name": "\(name)",
+    "x": \(x),
+    "y": \(y),
+    "width": \(width),
+    "height": \(height)\(windowIdxStr)
+}
 """
     }
 }
