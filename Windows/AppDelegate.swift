@@ -31,13 +31,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.sendAction(on: [.leftMouseUp, .rightMouseUp])
         }
         initWindow(selectFile: false)
+        checkAccessibility()
     }
     
     func initWindow(selectFile: Bool) {
-        guard let ws = readConfig(selectFile: selectFile) else {
+        guard let configs = readConfig(selectFile: selectFile) else {
             return
         }
-        self.windows = fileToWindows(content: ws)
+        self.windows = configs.map {
+            Window(config: $0)
+        }
     }
     
     func startUI() {
@@ -49,7 +52,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let e = NSApp.currentEvent else {return}
         switch e.type {
         case .leftMouseUp:
-            setWindows(windows: &self.windows)
+            for var window in self.windows {
+                setWindow(window: &window)
+            }
             break
         case .rightMouseUp:
             self.startUI()

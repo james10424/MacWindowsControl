@@ -16,7 +16,7 @@ let title = "❖"
  
  Return the object read if success
  */
-func readWindows(fname: String) -> [[String: AnyObject]]? {
+func readWindows(fname: String) -> [WindowConfig]? {
     guard
         let content = try? String(contentsOfFile: fname),
         let data = content.data(using: .utf8)
@@ -24,47 +24,14 @@ func readWindows(fname: String) -> [[String: AnyObject]]? {
         print("Failed to read song file")
         return nil
     }
+    let decoder = JSONDecoder()
     do {
-        let json_output = try JSONSerialization.jsonObject(with: data, options: [])
-        print(json_output)
-        return (json_output as! [[String: AnyObject]])
+        let windows = try decoder.decode([WindowConfig].self, from: data)
+        return windows
     } catch {
-        print("error parsing songs: \(error)")
+        print("error parsing windows: \(error)")
         return nil
     }
-}
-
-/**
- Convert the file string to Window object
- */
-func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
-    var windows: [Window] = []
-    var invalids: [[String: AnyObject]] = []
-    for item in content {
-        let windowIdx = item["windowIdx"] as? Int
-        if let name = item["name"] as? String,
-           let x = item["x"] as? Int,
-           let y = item["y"] as? Int,
-           let width = item["width"] as? Int,
-           let height = item["height"] as? Int {
-            windows.append(Window(
-                name: name,
-                x: x, y: y,
-                width: width, height: height,
-                windowIdx: windowIdx
-            ))
-        }
-        else {
-            invalids.append(item)
-        }
-    }
-    if !invalids.isEmpty {
-        notification(
-            title: "Some operations weren't successful",
-            text: invalids.map{"\($0)"}.joined(separator: "\n")
-        )
-    }
-    return windows
 }
 
 /**
@@ -73,9 +40,11 @@ func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
  returns the object read if success
  
  The config has the following format:
+ ```
  [
     {
-        "name": "window name",
+        "processName": "window name",
+        "windowName": null,
         "x": 2561,
         "y": -1093,
         "width": 1079,
@@ -83,8 +52,9 @@ func fileToWindows(content: [[String: AnyObject]]) -> [Window] {
     },
     ...
  ]
+```
  */
-func readConfig(selectFile: Bool) -> [[String: AnyObject]]? {
+func readConfig(selectFile: Bool) -> [WindowConfig]? {
     let defaults = UserDefaults.standard
     var fname: String?
     let defaultFile = defaults.string(forKey: "windowConfig")
@@ -112,6 +82,7 @@ func readConfig(selectFile: Bool) -> [[String: AnyObject]]? {
         )
         return nil
     }
+    print("Read these windows: ", ws)
     defaults.set(fname, forKey: "windowConfig")
     return ws
 }
@@ -156,7 +127,7 @@ func askForFile(defaultFile: String?) -> String? {
     return nil
 }
 
-func windowsToJSON(windows: [Window]) throws -> String {
+func windowsToJSON(windows: [WindowConfig]) throws -> String {
     // convert list of windows into json
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
@@ -172,7 +143,7 @@ func windowsToJSON(windows: [Window]) throws -> String {
  
  Return true if it has successfully been saved
  */
-func saveToFile(windows: [Window]) -> Bool {
+func saveToFile(windows: [WindowConfig]) -> Bool {
     // get json string
     guard let jsonString = try? windowsToJSON(windows: windows)
     else {
@@ -203,3 +174,29 @@ func saveToFile(windows: [Window]) -> Bool {
     }
     return success
 }
+
+ func checkAccessibility() {
+    //get the value for accesibility
+    let checkOptPrompt = kAXTrustedCheckOptionPrompt.takeUnretainedValue() as NSString
+    //set the options: false means it wont ask
+    //true means it will popup and ask
+    let options = [checkOptPrompt: true]
+    //translate into boolean value
+    let accessEnabled = AXIsProcessTrustedWithOptions(options as CFDictionary?)
+
+    if accessEnabled {
+        print("Access Granted")
+    } else {
+        print("Access not allowed")
+    }
+}
+
+
+let DEFAULT_WINDOW_CONFIG = WindowConfig(
+    processName: "New Process",
+    x: 0, y: 0,
+    width: 0, height: 0,
+    windowIdx: 0
+)
+
+let DEFAULT_WINDOW = Window(config: DEFAULT_WINDOW_CONFIG)
