@@ -285,7 +285,7 @@ func setWindow(window: inout Window) {
     setByWindow(window: &window)
 }
 
-func getWindowPosition(windowRef: AXUIElement) -> CGPoint? {
+func getWindowPosition(windowRef: AXUIElement) throws -> CGPoint {
     var positionRef: CFTypeRef?
     let err = AXUIElementCopyAttributeValue(
         windowRef,
@@ -293,20 +293,22 @@ func getWindowPosition(windowRef: AXUIElement) -> CGPoint? {
         &positionRef
     )
     guard err == .success else {
-        print("can't get position with error \(err.rawValue)")
-        return nil
+        throw WindowError.AXError(err: err)
     }
     var position: CGPoint = CGPoint()
-    AXValueGetValue(
+    let success = AXValueGetValue(
         positionRef as! AXValue,
         AXValueType(rawValue: kAXValueCGPointType)!,
         &position
     )
+    if !success {
+        throw WindowError.AccessError(msg: "Failed to convert position data")
+    }
 
     return position
 }
 
-func getWindowSize(windowRef: AXUIElement) -> CGSize? {
+func getWindowSize(windowRef: AXUIElement) throws -> CGSize {
     var sizeRef: CFTypeRef?
     let err = AXUIElementCopyAttributeValue(
         windowRef,
@@ -314,15 +316,17 @@ func getWindowSize(windowRef: AXUIElement) -> CGSize? {
         &sizeRef
     )
     guard err == .success else {
-        print("can't get size with error \(err.rawValue)")
-        return nil
+        throw WindowError.AXError(err: err)
     }
     var size: CGSize = CGSize()
-    AXValueGetValue(
+    let success = AXValueGetValue(
         sizeRef as! AXValue,
         AXValueType(rawValue: kAXValueCGSizeType)!,
         &size
     )
+    if !success {
+        throw WindowError.AccessError(msg: "Failed to convert size data")
+    }
 
     return size
 }
@@ -336,17 +340,30 @@ func getWindowInfo(window: inout Window) {
         return
     }
 
-    guard
-        let position = getWindowPosition(windowRef: window.windowRef!),
-        let size = getWindowSize(windowRef: window.windowRef!)
-    else {
-        print("Failed to get info for \(window.config.processName)")
+    do {
+        let position = try getWindowPosition(windowRef: window.windowRef!)
+        let size = try getWindowSize(windowRef: window.windowRef!)
+        window.config.setPosition(x: Int(position.x), y: Int(position.y))
+        window.config.setSize(width: Int(size.width), height: Int(size.height))
+    } catch WindowError.AXError(let err) {
+        var msg: String
+        if err == .apiDisabled {
+            msg = "Assistive access disabled for \(window.config.processName)"
+        } else {
+            msg = "Error getting window information for \(window.config.processName): \(err.rawValue)"
+        }
+        print(msg)
+        window.lastError = msg
         window.windowRef = nil
-        return
-    }
-
-    window.config.setPosition(x: Int(position.x), y: Int(position.y))
-    window.config.setSize(width: Int(size.width), height: Int(size.height))
+    } catch WindowError.AccessError(let msg) {
+        window.lastError = msg
+        window.windowRef = nil
+    } catch {
+        let msg = "Unexpected error"
+        print(msg)
+        window.lastError = msg
+        window.windowRef = nil
+   }
 }
 
 /**
