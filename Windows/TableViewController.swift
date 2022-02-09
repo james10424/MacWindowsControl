@@ -268,7 +268,7 @@ extension TableViewController: NSTableViewDelegate {
             if currentWindow.windowRef == nil {
                 imageView?.image = NSImage(imageLiteralResourceName: "NSStatusUnavailable")
                 // set the error message
-//                cellView.toolTip = "asdasd"
+                cellView.toolTip = currentWindow.lastError
             }
             else {
                 imageView?.image = NSImage(imageLiteralResourceName: "NSStatusAvailable")

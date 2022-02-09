@@ -61,16 +61,22 @@ struct WindowConfig: Codable {
 struct Window {
     var config: WindowConfig
     var windowRef: AXUIElement?
-    
+    var lastError: String?
+
     init(config: WindowConfig) {
         self.config = config
     }
 }
 
+enum WindowError: Error {
+    case AccessError(msg: String)
+    case AXError(err: AXError)
+}
+
 /**
  GeWindowConfigby window owner name
  */
-func getPIDByName(processName: String) -> Int32? {
+func getPIDByName(processName: String) throws -> Int32 {
     if let windowList = CGWindowListCopyWindowInfo([.optionOnScreenOnly], kCGNullWindowID) as? [[String: AnyObject]] {
         for window in windowList {
             if  let _processName = window[kCGWindowOwnerName as String] as? String,
@@ -82,8 +88,7 @@ func getPIDByName(processName: String) -> Int32? {
             }
         }
     }
-    print("Can't find PID for \(processName)")
-    return nil
+    throw WindowError.AccessError(msg: "Can't find PID for \(processName)")
 }
 
 func getWindowTitle(_ window: AXUIElement) -> String? {
@@ -98,7 +103,11 @@ func getWindowTitle(_ window: AXUIElement) -> String? {
 /**
  Get the window `AXUIElement` by pid, window name and window index
  */
-func getWindowByPID(pid: Int32, windowName: String?, windowIdx: Int) -> AXUIElement? {
+func getWindowByPID(
+    pid: Int32,
+    windowName: String?,
+    windowIdx: Int
+) throws -> AXUIElement {
     // get handle
     let app = AXUIElementCreateApplication(pid)
     var value: AnyObject?
@@ -109,12 +118,7 @@ func getWindowByPID(pid: Int32, windowName: String?, windowIdx: Int) -> AXUIElem
     ) as AXError
 
     guard err == .success else {
-        if err == .apiDisabled {
-            print("Assistive access disabled for \(pid)")
-        } else {
-            print("Error getting window: \(err.rawValue)")
-        }
-        return nil
+        throw WindowError.AXError(err: err)
     }
     
     // filter window with this name
@@ -122,8 +126,7 @@ func getWindowByPID(pid: Int32, windowName: String?, windowIdx: Int) -> AXUIElem
         let windows = value as? [AXUIElement],
         windows.count > 0
     else {
-        print("Failed to get window \(windowIdx) for \(pid)")
-        return nil
+        throw WindowError.AccessError(msg: "Failed to convert window results to AXUIElement for \(pid)")
     }
 
     if windowName == nil {
@@ -131,7 +134,7 @@ func getWindowByPID(pid: Int32, windowName: String?, windowIdx: Int) -> AXUIElem
         if windowIdx < windows.count && windowIdx >= 0 {
             return windows[windowIdx]
         }
-        return nil
+        throw WindowError.AccessError(msg: "Index \(windowIdx) out of range")
     }
 
     // do name filtering
@@ -146,24 +149,19 @@ func getWindowByPID(pid: Int32, windowName: String?, windowIdx: Int) -> AXUIElem
     if windowIdx < filteredWindows.count && windowIdx >= 0 {
         return filteredWindows[windowIdx]
     }
-    return nil
+    throw WindowError.AccessError(msg: "Index \(windowIdx) out of range when trying to get \(windowName!)")
 }
 
 /**
     Get the window `AXUIElement` by names and index
  */
-func getWindowByName(processName: String, windowName: String?, windowIdx: Int) -> AXUIElement? {
-    guard
-        let pid = getPIDByName(processName: processName),
-        let window = getWindowByPID(pid: pid, windowName: windowName, windowIdx: windowIdx)
-    else {
-        print("Can't get window \(processName)")
-        return nil
-    }
+func getWindowByName(processName: String, windowName: String?, windowIdx: Int) throws -> AXUIElement {
+    let pid = try getPIDByName(processName: processName)
+    let window = try getWindowByPID(pid: pid, windowName: windowName, windowIdx: windowIdx)
     return window
 }
 
-func setWindowPosition(_ window: AXUIElement, x: Int, y: Int) -> AXError {
+func setWindowPosition(_ window: AXUIElement, x: Int, y: Int) throws {
     var point = CGPoint(x: x, y: y)
     let position = AXValueCreate(
         AXValueType(rawValue: kAXValueCGPointType)!,
@@ -174,10 +172,12 @@ func setWindowPosition(_ window: AXUIElement, x: Int, y: Int) -> AXError {
         kAXPositionAttribute as CFString,
         position
     )
-    return err
+    if err != .success {
+        throw WindowError.AXError(err: err)
+    }
 }
 
-func setWindowSize(_ window: AXUIElement, width: Int, height: Int) -> AXError {
+func setWindowSize(_ window: AXUIElement, width: Int, height: Int) throws {
     var rect = CGSize(width: width, height: height)
     let size = AXValueCreate(
         AXValueType(rawValue: kAXValueCGSizeType)!,
@@ -188,22 +188,17 @@ func setWindowSize(_ window: AXUIElement, width: Int, height: Int) -> AXError {
         kAXSizeAttribute as CFString,
         size
     )
-    return err
+    if err != .success {
+        throw WindowError.AXError(err: err)
+    }
 }
 
 /**
  Sets the window size and position by pid
  */
-func setByRef(window: AXUIElement, x: Int, y: Int, width: Int, height: Int) -> AXError? {
-    let err_pos = setWindowPosition(window, x: x, y: y)
-    if err_pos != .success {
-        return err_pos
-    }
-    let err_size = setWindowSize(window, width: width, height: height)
-    if err_size != .success {
-        return err_size
-    }
-    return nil
+func setByRef(window: AXUIElement, x: Int, y: Int, width: Int, height: Int) throws {
+    try setWindowPosition(window, x: x, y: y)
+    try setWindowSize(window, width: width, height: height)
 }
 
 /**
@@ -215,16 +210,30 @@ func setByWindow(window: inout Window) {
         return
     }
     let config = window.config
-    let err = setByRef(
-        window: window.windowRef!,
-        x: config.x,
-        y: config.y,
-        width: config.width,
-        height: config.height
-    )
-    if err != nil && err! != .success {
+    do {
+        try setByRef(
+            window: window.windowRef!,
+            x: config.x,
+            y: config.y,
+            width: config.width,
+            height: config.height
+        )
+        window.lastError = nil  // clear error if success
+    } catch WindowError.AXError(let err) {
+        var msg: String
+        if err == .apiDisabled {
+            msg = "Assistive access disabled for \(window.config.processName)"
+        } else {
+            msg = "Error setting window for \(window.config.processName): \(err.rawValue)"
+        }
+        print(msg)
+        window.lastError = msg
         window.windowRef = nil
-        print("Failed to set atrs for \(window.config.processName) with \(err!.rawValue)")
+    } catch {
+        let msg = "Unknown error"
+        print(msg)
+        window.windowRef = nil
+        window.lastError = msg
     }
 }
 
@@ -234,19 +243,37 @@ func setByWindow(window: inout Window) {
  it can assume that the window has a ref
  */
 func ensureRef(window: inout Window) {
-//    let indicies = ((filter?.count ?? 0) > 0) ? filter! : IndexSet(windows.indices)
+    if (window.windowRef != nil) {
+        // clear error message if we have proper ref
+        // next steps will set the error message if failed
+        window.lastError = nil
+        return
+    }
     let config = window.config
-    if (window.windowRef == nil) {
-        print("\(config.processName)'s has no ref stored yet")
-        guard let windowRef = getWindowByName(
+    print("No ref stored for \(config.processName)")
+    do {
+        let windowRef = try getWindowByName(
             processName: config.processName,
             windowName: config.windowName,
             windowIdx: config.windowIdx
-        ) else {
-            print("Can't get window ref for \(config.processName)")
-            return
-        }
+        )
         window.windowRef = windowRef
+    } catch WindowError.AccessError(let msg) {
+        print("Can't get window ref for \(config.processName): \(msg)")
+        window.lastError = msg
+    } catch WindowError.AXError(let err) {
+        var msg: String
+        if err == .apiDisabled {
+            msg = "Assistive access disabled for \(window.config.processName)"
+        } else {
+            msg =  "Error getting window for \(window.config.processName): \(err.rawValue)"
+        }
+        print(msg)
+        window.lastError = msg
+    } catch {
+        let msg = "Unexpected error"
+        print(msg)
+        window.lastError = msg
     }
 }
 
