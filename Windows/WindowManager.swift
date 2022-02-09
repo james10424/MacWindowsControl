@@ -163,7 +163,7 @@ func getWindowByName(processName: String, windowName: String?, windowIdx: Int) -
     return window
 }
 
-func setWindowPosition(_ window: AXUIElement, x: Int, y: Int) {
+func setWindowPosition(_ window: AXUIElement, x: Int, y: Int) -> AXError {
     var point = CGPoint(x: x, y: y)
     let position = AXValueCreate(
         AXValueType(rawValue: kAXValueCGPointType)!,
@@ -174,12 +174,10 @@ func setWindowPosition(_ window: AXUIElement, x: Int, y: Int) {
         kAXPositionAttribute as CFString,
         position
     )
-    if err != .success {
-        print("Can't set position with error \(err.rawValue)")
-    }
+    return err
 }
 
-func setWindowSize(_ window: AXUIElement, width: Int, height: Int) {
+func setWindowSize(_ window: AXUIElement, width: Int, height: Int) -> AXError {
     var rect = CGSize(width: width, height: height)
     let size = AXValueCreate(
         AXValueType(rawValue: kAXValueCGSizeType)!,
@@ -190,35 +188,44 @@ func setWindowSize(_ window: AXUIElement, width: Int, height: Int) {
         kAXSizeAttribute as CFString,
         size
     )
-    if err != .success {
-        print("Can't set position with error \(err.rawValue)")
-    }
+    return err
 }
 
 /**
  Sets the window size and position by pid
  */
-func setByRef(window: AXUIElement, x: Int, y: Int, width: Int, height: Int) {
-    setWindowPosition(window, x: x, y: y)
-    setWindowSize(window, width: width, height: height)
+func setByRef(window: AXUIElement, x: Int, y: Int, width: Int, height: Int) -> AXError? {
+    let err_pos = setWindowPosition(window, x: x, y: y)
+    if err_pos != .success {
+        return err_pos
+    }
+    let err_size = setWindowSize(window, width: width, height: height)
+    if err_size != .success {
+        return err_size
+    }
+    return nil
 }
 
 /**
  Set window attributes by Window object
  */
-func setByWindow(window: Window) {
+func setByWindow(window: inout Window) {
     guard window.windowRef != nil else {
         print("Window \(window.config.processName) does not have a ref yet")
         return
     }
     let config = window.config
-    setByRef(
+    let err = setByRef(
         window: window.windowRef!,
         x: config.x,
         y: config.y,
         width: config.width,
         height: config.height
     )
+    if err != nil && err! != .success {
+        window.windowRef = nil
+        print("Failed to set atrs for \(window.config.processName) with \(err!.rawValue)")
+    }
 }
 
 /**
@@ -248,7 +255,7 @@ func ensureRef(window: inout Window) {
  */
 func setWindow(window: inout Window) {
     ensureRef(window: &window)
-    setByWindow(window: window)
+    setByWindow(window: &window)
 }
 
 func getWindowPosition(windowRef: AXUIElement) -> CGPoint? {
@@ -307,6 +314,7 @@ func getWindowInfo(window: inout Window) {
         let size = getWindowSize(windowRef: window.windowRef!)
     else {
         print("Failed to get info for \(window.config.processName)")
+        window.windowRef = nil
         return
     }
 

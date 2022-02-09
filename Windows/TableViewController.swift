@@ -15,7 +15,8 @@ let col_to_cell = [
     NSUserInterfaceItemIdentifier(rawValue: "window_x_col"): NSUserInterfaceItemIdentifier(rawValue: "window_x_cell"),
     NSUserInterfaceItemIdentifier(rawValue: "window_y_col"): NSUserInterfaceItemIdentifier(rawValue: "window_y_cell"),
     NSUserInterfaceItemIdentifier(rawValue: "window_width_col"): NSUserInterfaceItemIdentifier(rawValue: "window_width_cell"),
-    NSUserInterfaceItemIdentifier(rawValue: "window_height_col"): NSUserInterfaceItemIdentifier(rawValue: "window_height_cell")
+    NSUserInterfaceItemIdentifier(rawValue: "window_height_col"): NSUserInterfaceItemIdentifier(rawValue: "window_height_cell"),
+    NSUserInterfaceItemIdentifier(rawValue: "status_col"): NSUserInterfaceItemIdentifier(rawValue: "status_cell")
 ]
 
 class TableViewController: NSViewController {
@@ -51,6 +52,9 @@ class TableViewController: NSViewController {
         for row in selected_rows {
             setWindow(window: &self.windows[row])
         }
+
+        // reload the status column
+        self.reloadColumn(rows: selected_rows, col: self.tableView.numberOfColumns - 1)
     }
     
     @IBAction func locate(_ sender: Any) {
@@ -60,7 +64,7 @@ class TableViewController: NSViewController {
         for row in selected_rows {
             locateWindow(window: &self.windows[row])
         }
-        self.tableView.reloadData()
+        self.reloadInplace()
     }
     
     @IBAction func open(_ sender: Any) {
@@ -115,15 +119,40 @@ class TableViewController: NSViewController {
         
     }
     
-    func reloadOne(_ sender: NSTextField) {
-        let row = self.tableView.row(for: sender as NSView)
-        let col = self.tableView.column(for: sender as NSView)
+    /**
+     Reload the data without removing selected rows
+     */
+    func reloadInplace() {
+        self.tableView.beginUpdates()
+        self.tableView.reloadData(
+            forRowIndexes: IndexSet(0...(self.tableView.numberOfRows - 1)),
+            columnIndexes: IndexSet(0...(self.tableView.numberOfColumns - 1))
+        )
+        self.tableView.endUpdates()
+    }
+    
+    func reloadColumn(rows: IndexSet, col: Int) {
+        self.tableView.beginUpdates()
+        self.tableView.reloadData(
+            forRowIndexes: rows,
+            columnIndexes: IndexSet([col])
+        )
+        self.tableView.endUpdates()
+    }
+    
+    func reloadOne(row: Int, col: Int) {
         self.tableView.beginUpdates()
         self.tableView.reloadData(
             forRowIndexes: IndexSet([row]),
             columnIndexes: IndexSet([col])
         )
         self.tableView.endUpdates()
+    }
+    
+    func reloadOne(_ sender: NSTextField) {
+        let row = self.tableView.row(for: sender as NSView)
+        let col = self.tableView.column(for: sender as NSView)
+        self.reloadOne(row: row, col: col)
     }
 
     @IBAction func processNameEdit(_ sender: NSTextField) {
@@ -191,7 +220,8 @@ extension TableViewController: NSTableViewDataSource {
 
 extension TableViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let currentWindow = self.windows[row].config
+        let currentWindow = self.windows[row]
+        let currentWindowConfig = currentWindow.config
         guard
             let columnIdentifier = tableColumn?.identifier,
             let cellIdentifier = col_to_cell[columnIdentifier] else {
@@ -201,36 +231,50 @@ extension TableViewController: NSTableViewDelegate {
             let cellView = tableView.makeView(
                 withIdentifier: cellIdentifier,
                 owner: self
-            ) as? NSTableCellView,
-            let textField = cellView.textField
+            ) as? NSTableCellView
         else {
-            print("Can't get \(cellIdentifier)")
+            print("Can't get \(cellIdentifier.rawValue)")
             return nil
         }
         
+        let textField = cellView.textField
+        let imageView = cellView.imageView
+        
         switch cellView.identifier?.rawValue {
         case "process_name_cell":
-            textField.stringValue = currentWindow.processName
+            textField?.stringValue = currentWindowConfig.processName
             break
         case "window_name_cell":
-            if currentWindow.windowName != nil {
-                textField.stringValue = currentWindow.windowName!
+            if currentWindowConfig.windowName != nil {
+                textField?.stringValue = currentWindowConfig.windowName!
             }
             break
         case "window_x_cell":
-            textField.integerValue = currentWindow.x
+            textField?.integerValue = currentWindowConfig.x
             break
         case "window_y_cell":
-            textField.integerValue = currentWindow.y
+            textField?.integerValue = currentWindowConfig.y
             break
         case "window_width_cell":
-            textField.integerValue = currentWindow.width
+            textField?.integerValue = currentWindowConfig.width
             break
         case "window_height_cell":
-            textField.integerValue = currentWindow.height
+            textField?.integerValue = currentWindowConfig.height
             break
         case "window_index_cell":
-            textField.integerValue = currentWindow.windowIdx
+            textField?.integerValue = currentWindowConfig.windowIdx
+            break
+        case "status_cell":
+            if currentWindow.windowRef == nil {
+                imageView?.image = NSImage(imageLiteralResourceName: "NSStatusUnavailable")
+                // set the error message
+//                cellView.toolTip = "asdasd"
+            }
+            else {
+                imageView?.image = NSImage(imageLiteralResourceName: "NSStatusAvailable")
+                // clear the error message
+                cellView.toolTip = nil
+            }
             break
         default:
             return nil

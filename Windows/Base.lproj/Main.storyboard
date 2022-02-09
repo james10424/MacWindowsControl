@@ -708,18 +708,18 @@
             <objects>
                 <viewController id="fhj-UH-A1G" customClass="TableViewController" customModule="Windows" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="0Vi-7x-TF5">
-                        <rect key="frame" x="0.0" y="0.0" width="623" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="706" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Le0-3X-BPi">
-                                <rect key="frame" x="0.0" y="36" width="623" height="234"/>
+                                <rect key="frame" x="0.0" y="36" width="706" height="234"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" ambiguous="YES" id="AVL-5T-oNy">
-                                    <rect key="frame" x="1" y="0.0" width="621" height="233"/>
+                                    <rect key="frame" x="1" y="0.0" width="704" height="233"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <tableView verticalHuggingPriority="750" ambiguous="YES" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" autosaveColumns="NO" rowSizeStyle="automatic" headerView="eGC-S4-wYy" viewBased="YES" id="Eez-Sy-N7y">
-                                            <rect key="frame" x="0.0" y="0.0" width="621" height="208"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="704" height="208"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -991,6 +991,35 @@
                                                         </tableCellView>
                                                     </prototypeCellViews>
                                                 </tableColumn>
+                                                <tableColumn identifier="status_col" editable="NO" width="80" minWidth="40" maxWidth="80" id="3Cc-aC-QV2" userLabel="Status">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="Status">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="tJS-j4-IHZ">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="status_cell" id="h2x-IZ-y95" userLabel="window_index_cell">
+                                                            <rect key="frame" x="622" y="1" width="80" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gvR-jD-TA7">
+                                                                    <rect key="frame" x="16" y="-16" width="48" height="48"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" toolTip="asd" animates="YES" imageScaling="proportionallyDown" image="NSStatusAvailable" id="ZPj-ci-OCc"/>
+                                                                </imageView>
+                                                            </subviews>
+                                                            <connections>
+                                                                <outlet property="imageView" destination="gvR-jD-TA7" id="DbP-PN-Sy8"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
                                             </tableColumns>
                                             <connections>
                                                 <action selector="rowSelectionDidChange:" target="fhj-UH-A1G" id="Gc8-ZE-uTI"/>
@@ -999,8 +1028,8 @@
                                         </tableView>
                                     </subviews>
                                 </clipView>
-                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="96o-G2-22g">
-                                    <rect key="frame" x="1" y="218" width="548" height="15"/>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="0.069767441860465115" horizontal="YES" id="96o-G2-22g">
+                                    <rect key="frame" x="1" y="218" width="661" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="4eB-56-w5R">
@@ -1008,12 +1037,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="eGC-S4-wYy">
-                                    <rect key="frame" x="0.0" y="0.0" width="621" height="25"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="704" height="25"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableHeaderView>
                             </scrollView>
                             <stackView distribution="fill" orientation="horizontal" alignment="top" spacing="27" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hrQ-Vc-lCz" userLabel="Toolbar">
-                                <rect key="frame" x="72" y="8" width="479" height="21"/>
+                                <rect key="frame" x="114" y="8" width="479" height="21"/>
                                 <subviews>
                                     <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dBh-9g-t2B" userLabel="Left Tools">
                                         <rect key="frame" x="10" y="0.0" width="138" height="21"/>
@@ -1144,4 +1173,7 @@
             <point key="canvasLocation" x="49.5" y="-675"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="NSStatusAvailable" width="16" height="16"/>
+    </resources>
 </document>
