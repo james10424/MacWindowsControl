@@ -160,6 +160,9 @@ class TableViewController: NSViewController {
         guard row >= 0 && row < self.windows.count else {return}
         guard !sender.stringValue.isEmpty && self.windows[row].config.processName != sender.stringValue else {return}
         self.windows[row].config.processName = sender.stringValue
+        // setting process name invalidates the ref
+        self.windows[row].windowRef = nil
+        self.windows[row].lastError = "Process name changed, please locate the window"
         self.reloadOne(sender)
     }
 
@@ -168,6 +171,9 @@ class TableViewController: NSViewController {
         guard row >= 0 && row < self.windows.count else {return}
         guard !sender.stringValue.isEmpty && self.windows[row].config.windowName != sender.stringValue else {return}
         self.windows[row].config.windowName = sender.stringValue
+        // setting window name invalidates the ref
+        self.windows[row].windowRef = nil
+        self.windows[row].lastError = "Window name changed, please locate the window"
         self.reloadOne(sender)
     }
     
