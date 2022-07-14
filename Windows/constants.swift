@@ -21,7 +21,7 @@ func readWindows(fname: String) -> [WindowConfig]? {
         let content = try? String(contentsOfFile: fname),
         let data = content.data(using: .utf8)
     else {
-        print("Failed to read song file")
+        print("Failed to read window file")
         return nil
     }
     let decoder = JSONDecoder()

@@ -373,3 +373,99 @@ func locateWindow(window: inout Window) {
     ensureRef(window: &window)
     getWindowInfo(window: &window)
 }
+
+class WindowManager {
+    var windows: [Window] = []
+    
+    func updateWindowConfig(configs: [WindowConfig]?) {
+        let windows = configs?.map {
+            Window(config: $0)
+        }
+        if windows != nil {
+            self.windows = windows!
+        }
+    }
+    
+    func locateWindow(i: Int) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        ensureRef(window: &self.windows[i])
+        getWindowInfo(window: &self.windows[i])
+    }
+    
+    func setWindow(i: Int) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        ensureRef(window: &self.windows[i])
+        setByWindow(window: &self.windows[i])
+    }
+    
+    func setX(i: Int, x: Int) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        self.windows[i].config.x = x
+    }
+    
+    func setY(i: Int, y: Int) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        self.windows[i].config.y = y
+    }
+    
+    func setIndex(i: Int, index: Int) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        self.windows[i].config.windowIdx = index
+    }
+    
+    func setWidth(i: Int, width: Int) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        self.windows[i].config.width = width
+    }
+    
+    func setHeight(i: Int, height: Int) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        self.windows[i].config.height = height
+    }
+    
+    func setProcessName(i: Int, processName: String) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        self.windows[i].config.processName = processName
+        // setting process name invalidates the ref
+        self.windows[i].windowRef = nil
+        self.windows[i].lastError = "Process name changed, please locate the window"
+    }
+    
+    func setWindowName(i: Int, windowName: String) {
+        guard 0 <= i && i < self.windows.count else {
+            return
+        }
+        self.windows[i].config.windowName = windowName
+        // setting window name invalidates the ref
+        self.windows[i].windowRef = nil
+        self.windows[i].lastError = "Window name changed, please locate the window"
+    }
+    
+    func filterWindows(indicies: IndexSet) {
+        self.windows = self.windows.indices.filter {
+            !indicies.contains($0)
+        }.map {
+            self.windows[$0]
+        }
+    }
+    
+    func addWindow(window: Window) {
+        self.windows.append(window)
+    }
+}

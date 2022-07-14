@@ -21,14 +21,14 @@ let col_to_cell = [
 
 class TableViewController: NSViewController {
     @IBOutlet weak var tableView: NSTableView!
-    var windows: [Window]!
+    var windowManager: WindowManager!
     var appDelegate: AppDelegate!
     var isEditing: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.appDelegate = NSApplication.shared.delegate as? AppDelegate
-        self.windows = appDelegate.windows
+        self.windowManager = appDelegate.windowManager
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -50,7 +50,7 @@ class TableViewController: NSViewController {
 
         let selected_rows = self.tableView.selectedRowIndexes
         for row in selected_rows {
-            setWindow(window: &self.windows[row])
+            self.windowManager.setWindow(i: row)
         }
 
         // reload the status column
@@ -62,7 +62,7 @@ class TableViewController: NSViewController {
 
         let selected_rows = self.tableView.selectedRowIndexes
         for row in selected_rows {
-            locateWindow(window: &self.windows[row])
+            self.windowManager.locateWindow(i: row)
         }
         self.reloadInplace()
     }
@@ -71,13 +71,13 @@ class TableViewController: NSViewController {
         guard self.stopEditing() else {return}
 
         self.appDelegate.initWindow(selectFile: true)
-        self.windows = self.appDelegate.windows
+        self.windowManager = appDelegate.windowManager
         self.tableView.reloadData()
     }
     
     @IBAction func save(_ sender: Any) {
         guard self.stopEditing() else {return}
-        var _ = saveToFile(windows: self.windows.map { $0.config })
+        var _ = saveToFile(windows: self.windowManager.windows.map { $0.config })
     }
     
     @IBAction func remove(_ sender: Any) {
@@ -85,13 +85,7 @@ class TableViewController: NSViewController {
 
         let selected_rows = self.tableView.selectedRowIndexes
         guard selected_rows.count > 0 else {return}
-        let filtered_windows = self.windows.indices.filter {
-            !selected_rows.contains($0)
-        }.map {
-            self.windows[$0]
-        }
-        self.appDelegate.windows = filtered_windows
-        self.windows = filtered_windows
+        self.windowManager.filterWindows(indicies: selected_rows)
 
         self.tableView.beginUpdates()
         self.tableView.removeRows(
@@ -105,14 +99,14 @@ class TableViewController: NSViewController {
         guard self.stopEditing() else {return}
 
         // add a new item with default values
-        self.windows.append(DEFAULT_WINDOW)
+        self.windowManager.addWindow(window: DEFAULT_WINDOW)
         self.tableView.beginUpdates()
         self.tableView.insertRows(
-            at: IndexSet([self.windows.count - 1]),
+            at: IndexSet([self.windowManager.windows.count - 1]),
             withAnimation: .slideDown
         )
         self.tableView.endUpdates()
-        self.tableView.editColumn(0, row: self.windows.count - 1, with: nil, select: true)
+        self.tableView.editColumn(0, row: self.windowManager.windows.count - 1, with: nil, select: true)
     }
     
     @IBAction func rowSelectionDidChange(_ sender: Any) {
@@ -157,76 +151,70 @@ class TableViewController: NSViewController {
 
     @IBAction func processNameEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
-        guard row >= 0 && row < self.windows.count else {return}
-        guard !sender.stringValue.isEmpty && self.windows[row].config.processName != sender.stringValue else {return}
-        self.windows[row].config.processName = sender.stringValue
-        // setting process name invalidates the ref
-        self.windows[row].windowRef = nil
-        self.windows[row].lastError = "Process name changed, please locate the window"
+        guard row >= 0 && row < self.windowManager.windows.count else {return}
+        guard !sender.stringValue.isEmpty && self.windowManager.windows[row].config.processName != sender.stringValue else {return}
+        self.windowManager.setProcessName(i: row, processName: sender.stringValue)
         self.reloadOne(sender)
     }
 
     @IBAction func windowNameEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
-        guard row >= 0 && row < self.windows.count else {return}
-        guard !sender.stringValue.isEmpty && self.windows[row].config.windowName != sender.stringValue else {return}
-        self.windows[row].config.windowName = sender.stringValue
-        // setting window name invalidates the ref
-        self.windows[row].windowRef = nil
-        self.windows[row].lastError = "Window name changed, please locate the window"
+        guard row >= 0 && row < self.windowManager.windows.count else {return}
+        guard !sender.stringValue.isEmpty && self.windowManager.windows[row].config.windowName != sender.stringValue else {return}
+        self.windowManager.setWindowName(i: row, windowName: sender.stringValue)
         self.reloadOne(sender)
     }
     
     @IBAction func indexEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
-        guard row >= 0 && row < self.windows.count else {return}
-        guard self.windows[row].config.windowIdx != sender.integerValue else {return}
-        self.windows[row].config.windowIdx = sender.integerValue
+        guard row >= 0 && row < self.windowManager.windows.count else {return}
+        guard self.windowManager.windows[row].config.windowIdx != sender.integerValue else {return}
+        self.windowManager.setIndex(i: row, index: sender.integerValue)
         self.reloadOne(sender)
     }
     
     @IBAction func xEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
-        guard row >= 0 && row < self.windows.count else {return}
-        guard self.windows[row].config.x != sender.integerValue else {return}
-        self.windows[row].config.x = sender.integerValue
+        guard row >= 0 && row < self.windowManager.windows.count else {return}
+        guard self.windowManager.windows[row].config.x != sender.integerValue else {return}
+        self.windowManager.setX(i: row, x: sender.integerValue)
         self.reloadOne(sender)
     }
     
     @IBAction func yEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
-        guard row >= 0 && row < self.windows.count else {return}
-        guard self.windows[row].config.y != sender.integerValue else {return}
-        self.windows[row].config.y = sender.integerValue
+        guard row >= 0 && row < self.windowManager.windows.count else {return}
+        guard self.windowManager.windows[row].config.y != sender.integerValue else {return}
+        self.windowManager.setY(i: row, y: sender.integerValue)
         self.reloadOne(sender)
     }
     
     @IBAction func widthEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
-        guard row >= 0 && row < self.windows.count else {return}
-        guard self.windows[row].config.width != sender.integerValue else {return}
-        self.windows[row].config.width = sender.integerValue
+        guard row >= 0 && row < self.windowManager.windows.count else {return}
+        guard self.windowManager.windows[row].config.width != sender.integerValue else {return}
+        self.windowManager.setWidth(i: row, width: sender.integerValue)
         self.reloadOne(sender)
     }
     
     @IBAction func heightEdit(_ sender: NSTextField) {
         let row = self.tableView.row(for: sender as NSView)
-        guard row >= 0 && row < self.windows.count else {return}
-        guard self.windows[row].config.height != sender.integerValue else {return}
-        self.windows[row].config.height = sender.integerValue
+        guard row >= 0 && row < self.windowManager.windows.count else {return}
+        guard self.windowManager.windows[row].config.height != sender.integerValue else {return}
+        self.windowManager.setHeight(i: row, height: sender.integerValue)
         self.reloadOne(sender)
     }
 }
 
 extension TableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return self.windows.count
+        return self.windowManager.windows.count
     }
 }
 
 extension TableViewController: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let currentWindow = self.windows[row]
+        let currentWindow = self.windowManager.windows[row]
         let currentWindowConfig = currentWindow.config
         guard
             let columnIdentifier = tableColumn?.identifier,
