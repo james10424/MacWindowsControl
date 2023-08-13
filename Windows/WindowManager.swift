@@ -82,7 +82,7 @@ func getPIDByName(processName: String) throws -> Int32 {
             if  let _processName = window[kCGWindowOwnerName as String] as? String,
                 let pid = window[kCGWindowOwnerPID as String] as? Int32,
                 // check for process name
-                _processName == processName
+                _processName == processName || _processName == "\(processName).app"
             {
                 return pid
             }
