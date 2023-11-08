@@ -33,8 +33,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         initWindow(selectFile: false)
         checkAccessibility()
+        checkPermission()
+        
+        NSEvent.addGlobalMonitorForEvents(matching: [.keyDown]) { (event) in
+            let f13: UInt16 = 105
+
+            switch (event.keyCode) {
+                case f13:
+                    self.setAllWindows()
+                    break
+                default:
+                    break
+            }
+        }
     }
-    
+
+    func checkPermission() {
+        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String : true]
+        let accessEnabled = AXIsProcessTrustedWithOptions(options)
+
+        if !accessEnabled {
+            print("Access Not Enabled")
+        }
+        else {
+            print("Access Enabled")
+        }
+    }
+
+
     func initWindow(selectFile: Bool) {
         guard let configs = readConfig(selectFile: selectFile) else {
             return
@@ -47,13 +73,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.activate(ignoringOtherApps: true)
     }
     
+    func setAllWindows() {
+        for i in 0...self.windowManager.windows.count - 1 {
+            self.windowManager.setWindow(i: i)
+        }
+    }
+    
     @objc func click(sender: NSStatusItem) {
         guard let e = NSApp.currentEvent else {return}
         switch e.type {
         case .leftMouseUp:
-            for i in 0...self.windowManager.windows.count - 1 {
-                self.windowManager.setWindow(i: i)
-            }
+            setAllWindows()
             break
         case .rightMouseUp:
             self.startUI()
